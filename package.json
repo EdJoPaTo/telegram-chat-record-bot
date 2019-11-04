@@ -1,0 +1,67 @@
+{
+	"name": "telegram-chat-record-bot",
+	"version": "0.0.0",
+	"description": "A Telegram Bot to record messages in a given chat for a period of time",
+	"license": "MIT",
+	"repository": "EdJoPaTo/telegram-chat-record-bot",
+	"author": {
+		"name": "EdJoPaTo",
+		"email": "edjopato@gmail.com",
+		"url": "https://edjopato.de"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"build": "del dist && tsc",
+		"prepack": "npm run build",
+		"start": "ts-node source/index.ts",
+		"test": "tsc && xo"
+	},
+	"main": "dist",
+	"types": "dist",
+	"files": [
+		"dist",
+		"!*.test.*"
+	],
+	"keywords": [
+		""
+	],
+	"dependencies": {
+		"@edjopato/datastore": "^0.1.0",
+		"telegraf": "^3.33.3",
+		"telegraf-i18n": "^6.6.0",
+		"telegram-typings": "^3.6.1"
+	},
+	"devDependencies": {
+		"@sindresorhus/tsconfig": "^0.5.0",
+		"@types/node": "^12.0.2",
+		"@typescript-eslint/eslint-plugin": "^2.6.0",
+		"@typescript-eslint/parser": "^2.6.0",
+		"del-cli": "^3.0.0",
+		"eslint-config-xo-typescript": "^0.19.0",
+		"ts-node": "^8.4.1",
+		"typescript": "^3.3.3",
+		"xo": "^0.25.3"
+	},
+	"xo": {
+		"semi": false,
+		"extends": "xo-typescript",
+		"extensions": [
+			"ts"
+		],
+		"rules": {
+			"@typescript-eslint/strict-boolean-expressions": "off",
+			"@typescript-eslint/no-unnecessary-condition": [
+				"error",
+				{
+					"ignoreRhs": true
+				}
+			],
+			"@typescript-eslint/semi": [
+				"error",
+				"never"
+			]
+		}
+	}
+}

@@ -1,0 +1,1 @@
+This bot can record messages in a group chat.

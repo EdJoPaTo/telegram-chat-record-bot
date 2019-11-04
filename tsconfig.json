@@ -7,6 +7,7 @@
 	"compilerOptions": {
 		"declaration": false,
 		"esModuleInterop": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"sourceMap": true
 	}
 }

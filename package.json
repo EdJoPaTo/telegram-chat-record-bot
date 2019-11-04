@@ -29,6 +29,7 @@
 	],
 	"dependencies": {
 		"@edjopato/datastore": "^0.1.0",
+		"source-map-support": "^0.5.16",
 		"telegraf": "^3.33.3",
 		"telegraf-i18n": "^6.6.0",
 		"telegram-typings": "^3.6.1"

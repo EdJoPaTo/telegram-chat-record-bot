@@ -17,7 +17,12 @@ group:
     When you need me to finish just use /finish.
 
 
-    Hint: Currently bots can't see when messages are deleted.
+    Hints:
+
+    - Currently bots can't see when messages are deleted.
+
+    - Bots cant interact with each other (to prevent unwanted spam loops).
+    Interactions with other bots will not be recorded.
   finish:
     caption: >
       Forward this file to me in a private chat to get formatted outputs. 😎

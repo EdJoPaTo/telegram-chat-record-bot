@@ -20,6 +20,7 @@ group:
     Hints:
 
     - Currently bots can't see when messages are deleted.
+    The recording will still contain these messages.
 
     - Bots cant interact with each other (to prevent unwanted spam loops).
     Interactions with other bots will not be recorded.

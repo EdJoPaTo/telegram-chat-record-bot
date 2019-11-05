@@ -67,7 +67,7 @@ function formatContent(message: Message): string {
 
 	if (message.forward_from) {
 		const from = formatUser(message.forward_from)
-		parts.push(`FORWARDED FROM <${from}>`)
+		parts.push(`forward <${from}>`)
 	}
 
 	if (message.reply_to_message) {
@@ -75,7 +75,7 @@ function formatContent(message: Message): string {
 		const repliedToContent = formatContent(message.reply_to_message)
 		const shorted = repliedToContent.length > 20 ? repliedToContent.slice(0, 20) + '…' : repliedToContent
 
-		parts.push(`REPLY TO <${repliedToName}> "${shorted}"`)
+		parts.push(`reply to <${repliedToName}> "${shorted}"`)
 	}
 
 	const contentTypes = (Object.keys(message) as Array<keyof Message>)

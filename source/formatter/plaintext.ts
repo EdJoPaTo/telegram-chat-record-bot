@@ -54,6 +54,8 @@ const OTHER_MESSAGE_TYPE_EXCLUDE: Array<keyof Message> = [
 	'date',
 	'edit_date',
 	'entities',
+	'forward_date',
+	'forward_from',
 	'from',
 	'message_id',
 	'reply_to_message',

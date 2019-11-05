@@ -53,6 +53,7 @@ const OTHER_MESSAGE_TYPE_EXCLUDE: Array<keyof Message> = [
 	'chat',
 	'date',
 	'edit_date',
+	'entities',
 	'from',
 	'message_id',
 	'reply_to_message',
@@ -88,6 +89,11 @@ function formatContent(message: Message): string {
 
 	if (message.caption) {
 		parts.push(message.caption)
+	}
+
+	const entitiesOfInterest = (message.entities || []).filter(o => o.type === 'text_link')
+	if (entitiesOfInterest.length > 0) {
+		parts.push(`[${entitiesOfInterest.map(o => o.url).join(', ')}]`)
 	}
 
 	return parts.join(' ')

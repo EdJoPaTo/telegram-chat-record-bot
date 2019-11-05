@@ -23,6 +23,10 @@ group:
 
     - Bots cant interact with each other (to prevent unwanted spam loops).
     Interactions with other bots will not be recorded.
+  peek: >
+    The recording is still running.
+    This is only a snapshot.
+    Use /finish when you wish to end the recording.
   finish:
     empty: >
       There are no messages in the recording.

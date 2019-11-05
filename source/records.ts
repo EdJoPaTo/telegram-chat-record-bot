@@ -10,8 +10,10 @@ export async function add(message: Message): Promise<void> {
 	await data.set(id, history)
 }
 
-export function getAndDelete(chatId: number): Message[] {
-	const history = data.get(String(chatId)) || []
+export function remove(chatId: number): void {
 	data.delete(String(chatId))
-	return history
+}
+
+export function get(chatId: number): Message[] {
+	return data.get(String(chatId)) || []
 }

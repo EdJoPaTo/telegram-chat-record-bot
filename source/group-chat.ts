@@ -9,7 +9,7 @@ export const bot = new Composer()
 bot.on('left_chat_member', (ctx, next) => {
 	const user = ctx.message!.left_chat_member!
 	if (user.username === ctx.me) {
-		records.getAndDelete(ctx.chat!.id)
+		records.remove(ctx.chat!.id)
 	} else {
 		return next && next()
 	}
@@ -29,11 +29,21 @@ bot.on('message', (ctx, next) => {
 })
 
 bot.command('finish', async ctx => {
+	await sendRecording(ctx)
+	records.remove(ctx.chat!.id)
+	await ctx.leaveChat()
+})
+
+bot.command('peek', async ctx => {
+	await ctx.reply((ctx as any).i18n.t('group.peek'))
+	await sendRecording(ctx)
+})
+
+async function sendRecording(ctx: ContextMessageUpdate): Promise<void> {
 	const {id, title} = ctx.chat!
-	const history = records.getAndDelete(id)
+	const history = records.get(id)
 	if (history.length === 0) {
 		await ctx.reply((ctx as any).i18n.t('group.finish.empty'))
-		await ctx.leaveChat()
 		return
 	}
 
@@ -51,9 +61,7 @@ bot.command('finish', async ctx => {
 	await Promise.all(FORMATS.map(async o =>
 		trySendDocument(ctx, filenamePrefix, history, o)
 	))
-
-	await ctx.leaveChat()
-})
+}
 
 bot.on('message', async ctx => {
 	await records.add(ctx.message!)

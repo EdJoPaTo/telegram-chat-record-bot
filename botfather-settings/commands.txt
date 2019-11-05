@@ -1,1 +1,2 @@
 finish - finish recording
+peek - peek at the current recording without ending it

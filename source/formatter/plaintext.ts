@@ -13,6 +13,8 @@ export function plaintext(history: readonly Message[]): Result[] {
 		}, {})
 
 	const messages = Object.values(messageDict)
+		.sort((a, b) => a.message_id - b.message_id)
+		.sort((a, b) => a.date - b.date)
 	const entries = messages
 		.map(o => formatIndividualMessage(o))
 		.filter(o => o)

@@ -17,3 +17,13 @@ export function remove(chatId: number): void {
 export function get(chatId: number): Message[] {
 	return data.get(String(chatId)) || []
 }
+
+export async function migrateToNewGroupId(oldChatId: number, newChatId: number): Promise<void> {
+	const history = data.get(String(oldChatId))
+	if (!history) {
+		return
+	}
+
+	await data.set(String(newChatId), history)
+	data.delete(String(oldChatId))
+}

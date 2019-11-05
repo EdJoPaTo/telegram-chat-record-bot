@@ -15,7 +15,7 @@ bot.on('left_chat_member', (ctx, next) => {
 	}
 })
 
-bot.on('message', (ctx, next) => {
+bot.on('message', async (ctx, next) => {
 	if (!ctx.message) {
 		return
 	}
@@ -27,6 +27,15 @@ bot.on('message', (ctx, next) => {
 
 	if (ctx.message.group_chat_created || ctx.message.supergroup_chat_created) {
 		return ctx.reply((ctx as any).i18n.t('group.joined'))
+	}
+
+	if (ctx.message.migrate_to_chat_id) {
+		await records.migrateToNewGroupId(ctx.chat!.id, ctx.message.migrate_to_chat_id)
+		return
+	}
+
+	if (ctx.message.migrate_from_chat_id) {
+		return
 	}
 
 	return next && next()

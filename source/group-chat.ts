@@ -1,7 +1,8 @@
-import {Composer} from 'telegraf'
+import {Composer, ContextMessageUpdate} from 'telegraf'
 import {Message} from 'telegram-typings'
 
 import * as records from './records'
+import {formatByType, FormatType, FORMATS} from './formatter'
 
 export const bot = new Composer()
 
@@ -36,30 +37,21 @@ bot.command('finish', async ctx => {
 		return
 	}
 
-	const content = JSON.stringify(history, undefined, '\t')
+	const filenameParts: Array<string | undefined> = []
+	filenameParts.push(title)
+	filenameParts.push(
+		new Date(history[0].date * 1000).toISOString().slice(0, -5)
+	)
 
-	let filename = ''
-	filename += title
-	filename += '-'
+	const filenamePrefix = filenameParts
+		.filter(o => o)
+		.join('-')
+		.replace(/[:/\\]/g, '-') + '-'
 
-	const firstMessage: Message | undefined = history[0]
-	if (firstMessage !== undefined) {
-		const msgDate = new Date(firstMessage.date * 1000)
-		filename += msgDate.toISOString().slice(0, -5)
-		filename += '-'
-	}
+	await Promise.all(FORMATS.map(async o =>
+		trySendDocument(ctx, filenamePrefix, history, o)
+	))
 
-	filename += 'raw.json'
-
-	filename = filename
-		.replace(/[:/\\]/g, '-')
-
-	await ctx.replyWithDocument({
-		filename,
-		source: Buffer.from(content)
-	}, {
-		caption: (ctx as any).i18n.t('group.finish.caption')
-	})
 	await ctx.leaveChat()
 })
 
@@ -70,3 +62,22 @@ bot.on('message', async ctx => {
 bot.on('edited_message', async ctx => {
 	await records.add(ctx.editedMessage!)
 })
+
+async function trySendDocument(ctx: ContextMessageUpdate, filenamePrefix: string, history: readonly Message[], formatType: FormatType): Promise<void> {
+	try {
+		const documents = formatByType(history, formatType)
+		await Promise.all(
+			documents.map(async o => ctx.replyWithDocument({
+				filename: filenamePrefix + o.filenameSuffix,
+				source: Buffer.from(o.content)
+			}))
+		)
+	} catch (error) {
+		console.error('ERROR sending', formatType, error)
+		let text = ''
+		text += `ERROR while sending ${formatType}`
+		text += '\n\n'
+		text += error.message
+		await ctx.reply(text)
+	}
+}

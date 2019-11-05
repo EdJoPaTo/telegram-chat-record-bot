@@ -28,5 +28,7 @@ group:
     This is only a snapshot.
     Use /finish when you wish to end the recording.
   finish:
+    greeting: >
+      Thanks for using, see you next time!
     empty: >
       There are no messages in the recording.

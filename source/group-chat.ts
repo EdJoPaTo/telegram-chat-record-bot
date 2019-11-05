@@ -31,6 +31,7 @@ bot.on('message', (ctx, next) => {
 bot.command('finish', async ctx => {
 	await sendRecording(ctx)
 	records.remove(ctx.chat!.id)
+	await ctx.reply((ctx as any).i18n.t('group.finish.greeting'))
 	await ctx.leaveChat()
 })
 

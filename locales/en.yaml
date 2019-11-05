@@ -26,3 +26,5 @@ group:
   finish:
     caption: >
       Forward this file to me in a private chat to get formatted outputs. 😎
+    empty: >
+      There are no messages in the recording.

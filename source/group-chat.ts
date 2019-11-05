@@ -30,6 +30,12 @@ bot.on('message', (ctx, next) => {
 bot.command('finish', async ctx => {
 	const {id, title} = ctx.chat!
 	const history = records.getAndDelete(id)
+	if (history.length === 0) {
+		await ctx.reply((ctx as any).i18n.t('group.finish.empty'))
+		await ctx.leaveChat()
+		return
+	}
+
 	const content = JSON.stringify(history, undefined, '\t')
 
 	let filename = ''

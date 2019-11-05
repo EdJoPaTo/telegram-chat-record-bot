@@ -2,4 +2,9 @@ import {Composer} from 'telegraf'
 
 export const bot = new Composer()
 
-bot.command(['start', 'help', 'peek', 'finish'], (ctx: any) => ctx.reply(ctx.i18n.t('private.start')))
+bot.command(['start', 'help', 'peek', 'finish'], async ctx => {
+	let text = ''
+	text += (ctx as any).i18n.t('private.start')
+	text += 'https://github.com/EdJoPaTo/telegram-chat-record-bot'
+	return ctx.reply(text)
+})

@@ -25,6 +25,10 @@ bot.on('message', (ctx, next) => {
 		return ctx.reply((ctx as any).i18n.t('group.joined'))
 	}
 
+	if (ctx.message.group_chat_created || ctx.message.supergroup_chat_created) {
+		return ctx.reply((ctx as any).i18n.t('group.joined'))
+	}
+
 	return next && next()
 })
 

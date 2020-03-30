@@ -4,9 +4,9 @@ import {Result} from './type'
 export function plaintext(history: readonly Message[]): Result[] {
 	const messageDict = history
 		.reduceRight((coll: Record<number, Message>, add) => {
-			const msgId = add.message_id
-			if (coll[msgId] === undefined) {
-				coll[msgId] = add
+			const messageId = add.message_id
+			if (coll[messageId] === undefined) {
+				coll[messageId] = add
 			}
 
 			return coll
@@ -95,7 +95,7 @@ function formatContent(message: Message): string {
 		parts.push(message.caption)
 	}
 
-	const entitiesOfInterest = (message.entities || []).filter(o => o.type === 'text_link')
+	const entitiesOfInterest = (message.entities ?? []).filter(o => o.type === 'text_link')
 	if (entitiesOfInterest.length > 0) {
 		parts.push(`[${entitiesOfInterest.map(o => o.url).join(', ')}]`)
 	}

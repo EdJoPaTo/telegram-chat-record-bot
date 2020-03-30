@@ -49,10 +49,6 @@
 			"ts"
 		],
 		"rules": {
-			"@typescript-eslint/restrict-template-expressions": "warn",
-			"@typescript-eslint/prefer-optional-chain": "warn",
-			"@typescript-eslint/prefer-nullish-coalescing": "warn",
-			"unicorn/prevent-abbreviations": "warn",
 			"@typescript-eslint/semi": [
 				"error",
 				"never"

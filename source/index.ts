@@ -13,8 +13,17 @@ const bot = new Telegraf(token)
 if (process.env.NODE_ENV !== 'production') {
 	bot.use(async (ctx, next) => {
 		const updateId = ctx.update.update_id.toString(36)
-		const content = (ctx.callbackQuery && ctx.callbackQuery.data) || (ctx.message && ctx.message.text)
-		const identifier = `${updateId} ${ctx.updateType} ${ctx.updateSubTypes} ${ctx.from && ctx.from.first_name} ${content && content.length} ${content}`
+		const content = ctx.callbackQuery?.data ?? ctx.message?.text
+		const identifierPartsRaw: Array<string | undefined> = [
+			updateId,
+			ctx.updateType,
+			...ctx.updateSubTypes,
+			ctx.from?.first_name,
+			String(content?.length),
+			content
+		]
+		const identifierParts = identifierPartsRaw.filter(o => o) as string[]
+		const identifier = identifierParts.join(' ')
 
 		console.time(identifier)
 		if (next) {

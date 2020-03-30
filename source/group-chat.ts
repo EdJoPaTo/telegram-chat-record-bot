@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/prefer-optional-chain: off */
+
 import {Composer, ContextMessageUpdate} from 'telegraf'
 import {Message} from 'telegram-typings'
 

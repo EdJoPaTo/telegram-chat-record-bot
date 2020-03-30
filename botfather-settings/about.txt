@@ -1,1 +1,4 @@
 Add this bot to a group chat to record messages.
+
+Done by @EdJoPaTo
+https://github.com/EdJoPaTo/telegram-chat-record-bot

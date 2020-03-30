@@ -5,7 +5,9 @@ private:
     Add me to a chat. I will start to record all the messages I can see as soon as I joined the group.
 
 
-    If you like this bot send a thank you to @EdJoPaTo or head to the GitHub Repository.
+    If you like this bot send a thank you to ${username} or head to the GitHub Repository.
+
+    ${repolink}
 channel:
   fail: >
     Adding a random bot as an admin to your channel is maybe not the best idea…

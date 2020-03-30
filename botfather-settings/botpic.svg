@@ -1,0 +1,8 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <path fill="wheat" d="M0 0h512v512H0z"/>
+  <g transform="translate(-445 -5)" fill="none" stroke="maroon" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+    <circle cx="800.5" cy="161.5" r="100"/>
+    <circle cx="800.5" cy="161.5" r="50"/>
+    <path d="M671 432a100 100 0 01-141 0 100 100 0 010-141M671 432l200-200M792 312l58 40-100 2M530 291L730 91M570 402l130-130M610 422l130-130"/>
+  </g>
+</svg>

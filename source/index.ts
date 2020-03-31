@@ -1,5 +1,6 @@
 import {existsSync, readFileSync} from 'fs'
 
+import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
 import Telegraf from 'telegraf'
 import TelegrafI18n from 'telegraf-i18n'
 
@@ -11,27 +12,7 @@ const token = readFileSync(tokenFilePath, 'utf8').trim()
 const bot = new Telegraf(token)
 
 if (process.env.NODE_ENV !== 'production') {
-	bot.use(async (ctx, next) => {
-		const updateId = ctx.update.update_id.toString(36)
-		const content = ctx.callbackQuery?.data ?? ctx.message?.text
-		const identifierPartsRaw: Array<string | undefined> = [
-			updateId,
-			ctx.updateType,
-			...ctx.updateSubTypes,
-			ctx.from?.first_name,
-			String(content?.length),
-			content
-		]
-		const identifierParts = identifierPartsRaw.filter(o => o) as string[]
-		const identifier = identifierParts.join(' ')
-
-		console.time(identifier)
-		if (next) {
-			await next()
-		}
-
-		console.timeEnd(identifier)
-	})
+	bot.use(generateUpdateMiddleware())
 }
 
 const i18n = new TelegrafI18n({

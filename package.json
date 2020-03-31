@@ -32,6 +32,7 @@
 		"source-map-support": "^0.5.16",
 		"telegraf": "^3.33.3",
 		"telegraf-i18n": "^6.6.0",
+		"telegraf-middleware-console-time": "^1.0.0",
 		"telegram-typings": "^3.6.1"
 	},
 	"devDependencies": {

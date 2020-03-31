@@ -1,5 +1,6 @@
 {
 	"name": "telegram-chat-record-bot",
+	"private": true,
 	"version": "0.0.0",
 	"description": "A Telegram Bot to record messages in a given chat for a period of time",
 	"license": "MIT",

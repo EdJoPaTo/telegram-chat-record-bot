@@ -50,7 +50,7 @@ function formatTimestamp(unixTimestamp: number): string {
 	return new Date(unixTimestamp * 1000).toISOString().slice(0, -5)
 }
 
-const OTHER_MESSAGE_TYPE_EXCLUDE: Array<keyof Message> = [
+const OTHER_MESSAGE_TYPE_EXCLUDE: Set<keyof Message> = new Set([
 	'caption',
 	'chat',
 	'date',
@@ -62,7 +62,7 @@ const OTHER_MESSAGE_TYPE_EXCLUDE: Array<keyof Message> = [
 	'message_id',
 	'reply_to_message',
 	'text'
-]
+])
 
 function formatContent(message: Message): string {
 	const parts: string[] = []
@@ -81,7 +81,7 @@ function formatContent(message: Message): string {
 	}
 
 	const contentTypes = (Object.keys(message) as Array<keyof Message>)
-		.filter(o => !OTHER_MESSAGE_TYPE_EXCLUDE.includes(o))
+		.filter(o => !OTHER_MESSAGE_TYPE_EXCLUDE.has(o))
 
 	if (contentTypes.length > 0) {
 		parts.push(`<${contentTypes.join(',')}>`)

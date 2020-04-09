@@ -2,7 +2,7 @@ import {existsSync, readFileSync} from 'fs'
 
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
 import Telegraf from 'telegraf'
-import TelegrafI18n from 'telegraf-i18n'
+import TelegrafI18n, {I18n} from 'telegraf-i18n'
 
 import * as groupChat from './group-chat'
 import * as privateChat from './private-chat'
@@ -28,7 +28,8 @@ bot.use(Telegraf.privateChat(privateChat.bot.middleware()))
 bot.use(Telegraf.groupChat(groupChat.bot.middleware()))
 
 bot.use(Telegraf.chatType('channel', async ctx => {
-	await ctx.reply((ctx as any).i18n.t('channel.fail'))
+	const i18n = (ctx as any).i18n as I18n
+	await ctx.reply(i18n.t('channel.fail'))
 	return ctx.leaveChat()
 }))
 

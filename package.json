@@ -42,19 +42,14 @@
 		"del-cli": "^3.0.0",
 		"ts-node": "^8.4.1",
 		"typescript": "^3.3.3",
-		"xo": "^0.28.1"
+		"xo": "^0.29.0"
 	},
 	"xo": {
-		"semi": false,
-		"extends": "xo-typescript",
-		"extensions": [
-			"ts"
-		],
+		"semicolon": false,
 		"rules": {
-			"@typescript-eslint/semi": [
-				"error",
-				"never"
-			]
+			"@typescript-eslint/no-unsafe-member-access": "warn",
+			"@typescript-eslint/no-unsafe-return": "warn",
+			"@typescript-eslint/prefer-readonly-parameter-types": "off"
 		}
 	}
 }

@@ -2,6 +2,7 @@
 
 import {Composer, ContextMessageUpdate} from 'telegraf'
 import {Message} from 'telegram-typings'
+import I18n from 'telegraf-i18n'
 
 import * as records from './records'
 import {formatByType, FormatType, FORMATS} from './formatter'
@@ -22,13 +23,15 @@ bot.on('message', async (ctx, next) => {
 		return
 	}
 
+	const i18n = (ctx as any).i18n as I18n
+
 	if (ctx.message.new_chat_members && ctx.message.new_chat_members.length === 1 && ctx.message.new_chat_members[0].username === ctx.me) {
 		// Don't log myself joining the chat
-		return ctx.reply((ctx as any).i18n.t('group.joined'))
+		return ctx.reply(i18n.t('group.joined'))
 	}
 
 	if (ctx.message.group_chat_created || ctx.message.supergroup_chat_created) {
-		return ctx.reply((ctx as any).i18n.t('group.joined'))
+		return ctx.reply(i18n.t('group.joined'))
 	}
 
 	if (ctx.message.migrate_to_chat_id) {
@@ -44,22 +47,25 @@ bot.on('message', async (ctx, next) => {
 })
 
 bot.command('finish', async ctx => {
+	const i18n = (ctx as any).i18n as I18n
 	await sendRecording(ctx)
 	records.remove(ctx.chat!.id)
-	await ctx.reply((ctx as any).i18n.t('group.finish.greeting'))
+	await ctx.reply(i18n.t('group.finish.greeting'))
 	await ctx.leaveChat()
 })
 
 bot.command('peek', async ctx => {
-	await ctx.reply((ctx as any).i18n.t('group.peek'))
+	const i18n = (ctx as any).i18n as I18n
+	await ctx.reply(i18n.t('group.peek'))
 	await sendRecording(ctx)
 })
 
 async function sendRecording(ctx: ContextMessageUpdate): Promise<void> {
+	const i18n = (ctx as any).i18n as I18n
 	const {id, title} = ctx.chat!
 	const history = records.get(id)
 	if (history.length === 0) {
-		await ctx.reply((ctx as any).i18n.t('group.finish.empty'))
+		await ctx.reply(i18n.t('group.finish.empty'))
 		return
 	}
 
@@ -101,7 +107,10 @@ async function trySendDocument(ctx: ContextMessageUpdate, filenamePrefix: string
 		let text = ''
 		text += `ERROR while sending ${formatType}`
 		text += '\n\n'
-		text += error.message
+		if (error instanceof Error) {
+			text += error.message
+		}
+
 		await ctx.reply(text)
 	}
 }

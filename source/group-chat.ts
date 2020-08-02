@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/prefer-optional-chain: off */
 
-import {Composer, ContextMessageUpdate} from 'telegraf'
+import {Composer, Context as TelegrafContext} from 'telegraf'
 import {Message} from 'telegram-typings'
 import I18n from 'telegraf-i18n'
 
@@ -13,9 +13,10 @@ bot.on('left_chat_member', (ctx, next) => {
 	const user = ctx.message!.left_chat_member!
 	if (user.username === ctx.me) {
 		records.remove(ctx.chat!.id)
-	} else {
-		return next && next()
+		return
 	}
+
+	return next()
 })
 
 bot.on('message', async (ctx, next) => {
@@ -43,7 +44,7 @@ bot.on('message', async (ctx, next) => {
 		return
 	}
 
-	return next && next()
+	return next()
 })
 
 bot.command('finish', async ctx => {
@@ -60,7 +61,7 @@ bot.command('peek', async ctx => {
 	await sendRecording(ctx)
 })
 
-async function sendRecording(ctx: ContextMessageUpdate): Promise<void> {
+async function sendRecording(ctx: TelegrafContext): Promise<void> {
 	const i18n = (ctx as any).i18n as I18n
 	const {id, title} = ctx.chat!
 	const history = records.get(id)
@@ -93,7 +94,7 @@ bot.on('edited_message', async ctx => {
 	await records.add(ctx.editedMessage!)
 })
 
-async function trySendDocument(ctx: ContextMessageUpdate, filenamePrefix: string, history: readonly Message[], formatType: FormatType): Promise<void> {
+async function trySendDocument(ctx: TelegrafContext, filenamePrefix: string, history: readonly Message[], formatType: FormatType): Promise<void> {
 	try {
 		const documents = formatByType(history, formatType)
 		await Promise.all(

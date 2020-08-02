@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:14-alpine
 WORKDIR /build
 
 COPY package.json package-lock.json tsconfig.json ./
@@ -10,7 +10,7 @@ RUN npx tsc
 RUN rm -rf node_modules && npm ci --production
 
 
-FROM node:12-alpine
+FROM node:14-alpine
 WORKDIR /app
 VOLUME /app/persist
 

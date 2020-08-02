@@ -45,6 +45,11 @@ bot.catch((error: any) => {
 
 async function startup(): Promise<void> {
 	try {
+		await bot.telegram.setMyCommands([
+			{command: 'finish', description: 'finish recording'},
+			{command: 'peek', description: 'peek at the current recording without ending it'}
+		])
+
 		await bot.launch()
 		console.log(new Date(), 'Bot started as', bot.options.username)
 	} catch (error) {
@@ -52,4 +57,5 @@ async function startup(): Promise<void> {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 startup()

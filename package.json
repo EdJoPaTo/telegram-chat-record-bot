@@ -11,7 +11,7 @@
 		"url": "https://edjopato.de"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=14"
 	},
 	"scripts": {
 		"build": "del dist && tsc",
@@ -26,29 +26,29 @@
 		"!*.test.*"
 	],
 	"keywords": [
-		""
+		"telegram",
+		"record",
+		"log"
 	],
 	"dependencies": {
-		"@edjopato/datastore": "^0.2.1",
+		"@edjopato/datastore": "^0.3.2",
 		"source-map-support": "^0.5.16",
-		"telegraf": "^3.33.3",
+		"telegraf": "^3.38.0",
 		"telegraf-i18n": "^6.6.0",
 		"telegraf-middleware-console-time": "^1.0.0",
 		"telegram-typings": "^3.6.1"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",
-		"@types/node": "^13.9.5",
+		"@types/node": "^14.0.27",
 		"del-cli": "^3.0.0",
 		"ts-node": "^8.4.1",
 		"typescript": "^3.3.3",
-		"xo": "^0.29.0"
+		"xo": "^0.32.1"
 	},
 	"xo": {
 		"semicolon": false,
 		"rules": {
-			"@typescript-eslint/no-unsafe-member-access": "warn",
-			"@typescript-eslint/no-unsafe-return": "warn",
 			"@typescript-eslint/prefer-readonly-parameter-types": "off"
 		}
 	}

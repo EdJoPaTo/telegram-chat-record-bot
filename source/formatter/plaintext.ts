@@ -2,15 +2,10 @@ import {Message, User} from 'telegram-typings'
 import {Result} from './type'
 
 export function plaintext(history: readonly Message[]): Result[] {
-	const messageDict = history
-		.reduceRight((coll: Record<number, Message>, add) => {
-			const messageId = add.message_id
-			if (coll[messageId] === undefined) {
-				coll[messageId] = add
-			}
-
-			return coll
-		}, {})
+	const messageDict: Record<number, Message> = {}
+	for (const add of history) {
+		messageDict[add.message_id] = add
+	}
 
 	const messages = Object.values(messageDict)
 		.sort((a, b) => a.message_id - b.message_id)

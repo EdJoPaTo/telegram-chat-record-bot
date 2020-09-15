@@ -7,6 +7,8 @@ import TelegrafI18n, {I18n} from 'telegraf-i18n'
 import * as groupChat from './group-chat'
 import * as privateChat from './private-chat'
 
+process.title = 'chat-record-tgbot'
+
 const tokenFilePath = existsSync('/run/secrets') ? '/run/secrets/bot-token.txt' : 'bot-token.txt'
 const token = readFileSync(tokenFilePath, 'utf8').trim()
 const bot = new Telegraf(token)

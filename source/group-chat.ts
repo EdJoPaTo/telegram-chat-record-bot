@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/prefer-optional-chain: off */
 
 import {Composer, Context as TelegrafContext} from 'telegraf'
-import {Message} from 'telegram-typings'
+import {Message} from 'typegram'
 import I18n from 'telegraf-i18n'
 
 import * as records from './records'
@@ -87,11 +87,11 @@ async function sendRecording(ctx: TelegrafContext): Promise<void> {
 }
 
 bot.on('message', async ctx => {
-	await records.add(ctx.message!)
+	await records.add(ctx.message as Message)
 })
 
 bot.on('edited_message', async ctx => {
-	await records.add(ctx.editedMessage!)
+	await records.add(ctx.editedMessage as Message)
 })
 
 async function trySendDocument(ctx: TelegrafContext, filenamePrefix: string, history: readonly Message[], formatType: FormatType): Promise<void> {

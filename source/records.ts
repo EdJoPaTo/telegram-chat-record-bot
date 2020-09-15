@@ -1,5 +1,5 @@
 import {KeyValueInMemoryFiles} from '@edjopato/datastore'
-import {Message} from 'telegram-typings'
+import {Message} from 'typegram'
 
 const data = new KeyValueInMemoryFiles<Message[]>('persist/records')
 

@@ -1,4 +1,6 @@
-import {Message, User} from 'telegram-typings'
+import {Message, MessageEntity, User} from 'typegram'
+
+import {getEntites} from './helper'
 import {Result} from './type'
 
 export function plaintext(history: readonly Message[]): Result[] {
@@ -45,7 +47,7 @@ function formatTimestamp(unixTimestamp: number): string {
 	return new Date(unixTimestamp * 1000).toISOString().slice(0, -5)
 }
 
-const OTHER_MESSAGE_TYPE_EXCLUDE: Set<keyof Message> = new Set([
+const OTHER_MESSAGE_TYPE_EXCLUDE: Set<string> = new Set([
 	'caption',
 	'chat',
 	'date',
@@ -59,15 +61,15 @@ const OTHER_MESSAGE_TYPE_EXCLUDE: Set<keyof Message> = new Set([
 	'text'
 ])
 
-function formatContent(message: Message): string {
+function formatContent(message: Partial<Message>): string {
 	const parts: string[] = []
 
-	if (message.forward_from) {
+	if ('forward_from' in message) {
 		const from = formatUser(message.forward_from)
 		parts.push(`forward <${from}>`)
 	}
 
-	if (message.reply_to_message) {
+	if ('reply_to_message' in message && message.reply_to_message) {
 		const repliedToName = formatUser(message.reply_to_message.from)
 		const repliedToContent = formatContent(message.reply_to_message)
 		const shorted = repliedToContent.length > 20 ? repliedToContent.slice(0, 20) + '…' : repliedToContent
@@ -82,15 +84,16 @@ function formatContent(message: Message): string {
 		parts.push(`<${contentTypes.join(',')}>`)
 	}
 
-	if (message.text) {
+	if ('text' in message && message.text) {
 		parts.push(message.text)
 	}
 
-	if (message.caption) {
+	if ('caption' in message && message.caption) {
 		parts.push(message.caption)
 	}
 
-	const entitiesOfInterest = (message.entities ?? []).filter(o => o.type === 'text_link')
+	const entitiesOfInterest = getEntites(message)
+		.filter((o): o is Readonly<MessageEntity.TextLinkMessageEntity> => o.type === 'text_link')
 	if (entitiesOfInterest.length > 0) {
 		parts.push(`[${entitiesOfInterest.map(o => o.url).join(', ')}]`)
 	}

@@ -1,4 +1,4 @@
-import {Message} from 'telegram-typings'
+import {Message} from 'typegram'
 import {Result} from './type'
 
 export function raw(history: readonly Message[]): Result[] {

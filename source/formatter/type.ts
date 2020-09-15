@@ -1,4 +1,4 @@
 export interface Result {
-	content: string;
-	filenameSuffix: string;
+	readonly content: string;
+	readonly filenameSuffix: string;
 }

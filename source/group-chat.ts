@@ -26,7 +26,7 @@ bot.on('message', async (ctx, next) => {
 
 	const i18n = (ctx as any).i18n as I18n
 
-	if (ctx.message.new_chat_members && ctx.message.new_chat_members.length === 1 && ctx.message.new_chat_members[0].username === ctx.me) {
+	if (ctx.message.new_chat_members?.length === 1 && ctx.message.new_chat_members[0]!.username === ctx.me) {
 		// Don't log myself joining the chat
 		return ctx.reply(i18n.t('group.joined'))
 	}
@@ -73,7 +73,7 @@ async function sendRecording(ctx: TelegrafContext): Promise<void> {
 	const filenameParts: Array<string | undefined> = []
 	filenameParts.push(title)
 	filenameParts.push(
-		new Date(history[0].date * 1000).toISOString().slice(0, -5)
+		new Date(history[0]!.date * 1000).toISOString().slice(0, -5)
 	)
 
 	const filenamePrefix = filenameParts

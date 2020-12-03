@@ -103,7 +103,7 @@ async function trySendDocument(ctx: TelegrafContext, filenamePrefix: string, his
 				source: Buffer.from(o.content)
 			}))
 		)
-	} catch (error) {
+	} catch (error: unknown) {
 		console.error('ERROR sending', formatType, error)
 		let text = ''
 		text += `ERROR while sending ${formatType}`

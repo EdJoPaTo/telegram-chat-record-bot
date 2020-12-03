@@ -41,7 +41,7 @@ if (process.env.NODE_ENV !== 'production') {
 	})
 }
 
-bot.catch((error: any) => {
+bot.catch((error: unknown) => {
 	console.error('telegraf error occured', error)
 })
 
@@ -54,7 +54,7 @@ async function startup(): Promise<void> {
 
 		await bot.launch()
 		console.log(new Date(), 'Bot started as', bot.options.username)
-	} catch (error) {
+	} catch (error: unknown) {
 		console.error('startup failed:', error)
 	}
 }

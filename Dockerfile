@@ -5,7 +5,7 @@ COPY package.json package-lock.json tsconfig.json ./
 RUN npm ci
 
 COPY source source
-RUN npx tsc
+RUN node_modules/.bin/tsc
 
 RUN rm -rf node_modules && npm ci --production
 

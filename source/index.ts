@@ -1,9 +1,10 @@
 import {existsSync, readFileSync} from 'fs'
 
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
-import Telegraf from 'telegraf'
-import TelegrafI18n, {I18n} from 'telegraf-i18n'
+import {I18n as TelegrafI18n} from '@edjopato/telegraf-i18n'
+import {Telegraf, Composer} from 'telegraf'
 
+import {MyContext} from './types'
 import * as groupChat from './group-chat'
 import * as privateChat from './private-chat'
 
@@ -11,7 +12,7 @@ process.title = 'chat-record-tgbot'
 
 const tokenFilePath = existsSync('/run/secrets') ? '/run/secrets/bot-token.txt' : 'bot-token.txt'
 const token = readFileSync(tokenFilePath, 'utf8').trim()
-const bot = new Telegraf(token)
+const bot = new Telegraf<MyContext>(token)
 
 if (process.env.NODE_ENV !== 'production') {
 	bot.use(generateUpdateMiddleware())
@@ -26,18 +27,17 @@ const i18n = new TelegrafI18n({
 
 bot.use(i18n.middleware())
 
-bot.use(Telegraf.privateChat(privateChat.bot.middleware()))
-bot.use(Telegraf.groupChat(groupChat.bot.middleware()))
+bot.use(Composer.privateChat(privateChat.bot.middleware()))
+bot.use(Composer.groupChat(groupChat.bot.middleware()))
 
-bot.use(Telegraf.chatType('channel', async ctx => {
-	const i18n = (ctx as any).i18n as I18n
-	await ctx.reply(i18n.t('channel.fail'))
+bot.use(Composer.chatType('channel', async ctx => {
+	await ctx.reply(ctx.i18n.t('channel.fail'))
 	return ctx.leaveChat()
 }))
 
 if (process.env.NODE_ENV !== 'production') {
 	bot.use(ctx => {
-		console.warn('no one handled this', ctx.updateType, ...ctx.updateSubTypes, ctx.update)
+		console.warn('no one handled this', ctx.updateType, ctx.update)
 	})
 }
 
@@ -53,7 +53,7 @@ async function startup(): Promise<void> {
 		])
 
 		await bot.launch()
-		console.log(new Date(), 'Bot started as', bot.options.username)
+		console.log(new Date(), 'Bot started as', bot.botInfo?.username)
 	} catch (error: unknown) {
 		console.error('startup failed:', error)
 	}

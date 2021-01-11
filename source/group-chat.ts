@@ -1,16 +1,14 @@
-/* eslint @typescript-eslint/prefer-optional-chain: off */
-
-import {Composer, Context as TelegrafContext} from 'telegraf'
+import {Composer} from 'telegraf'
 import {Message} from 'typegram'
-import I18n from 'telegraf-i18n'
 
-import * as records from './records'
 import {formatByType, FormatType, FORMATS} from './formatter'
+import {MyContext} from './types'
+import * as records from './records'
 
-export const bot = new Composer()
+export const bot = new Composer<MyContext>()
 
 bot.on('left_chat_member', (ctx, next) => {
-	const user = ctx.message!.left_chat_member!
+	const user = ctx.message.left_chat_member
 	if (user.username === ctx.me) {
 		records.remove(ctx.chat!.id)
 		return
@@ -24,23 +22,21 @@ bot.on('message', async (ctx, next) => {
 		return
 	}
 
-	const i18n = (ctx as any).i18n as I18n
-
-	if (ctx.message.new_chat_members?.length === 1 && ctx.message.new_chat_members[0]!.username === ctx.me) {
+	if ('new_chat_members' in ctx.message && ctx.message.new_chat_members?.length === 1 && ctx.message.new_chat_members[0]!.username === ctx.me) {
 		// Don't log myself joining the chat
-		return ctx.reply(i18n.t('group.joined'))
+		return ctx.reply(ctx.i18n.t('group.joined'))
 	}
 
-	if (ctx.message.group_chat_created || ctx.message.supergroup_chat_created) {
-		return ctx.reply(i18n.t('group.joined'))
+	if ('group_chat_created' in ctx.message || 'supergroup_chat_created' in ctx.message) {
+		return ctx.reply(ctx.i18n.t('group.joined'))
 	}
 
-	if (ctx.message.migrate_to_chat_id) {
+	if ('migrate_to_chat_id' in ctx.message) {
 		await records.migrateToNewGroupId(ctx.chat!.id, ctx.message.migrate_to_chat_id)
 		return
 	}
 
-	if (ctx.message.migrate_from_chat_id) {
+	if ('migrate_from_chat_id' in ctx.message) {
 		return
 	}
 
@@ -48,30 +44,29 @@ bot.on('message', async (ctx, next) => {
 })
 
 bot.command('finish', async ctx => {
-	const i18n = (ctx as any).i18n as I18n
 	await sendRecording(ctx)
 	records.remove(ctx.chat!.id)
-	await ctx.reply(i18n.t('group.finish.greeting'))
+	await ctx.reply(ctx.i18n.t('group.finish.greeting'))
 	await ctx.leaveChat()
 })
 
 bot.command('peek', async ctx => {
-	const i18n = (ctx as any).i18n as I18n
-	await ctx.reply(i18n.t('group.peek'))
+	await ctx.reply(ctx.i18n.t('group.peek'))
 	await sendRecording(ctx)
 })
 
-async function sendRecording(ctx: TelegrafContext): Promise<void> {
-	const i18n = (ctx as any).i18n as I18n
-	const {id, title} = ctx.chat!
-	const history = records.get(id)
+async function sendRecording(ctx: MyContext): Promise<void> {
+	const history = records.get(ctx.chat!.id)
 	if (history.length === 0) {
-		await ctx.reply(i18n.t('group.finish.empty'))
+		await ctx.reply(ctx.i18n.t('group.finish.empty'))
 		return
 	}
 
 	const filenameParts: Array<string | undefined> = []
-	filenameParts.push(title)
+	if ('title' in ctx.chat!) {
+		filenameParts.push(ctx.chat.title)
+	}
+
 	filenameParts.push(
 		new Date(history[0]!.date * 1000).toISOString().slice(0, -5)
 	)
@@ -87,14 +82,14 @@ async function sendRecording(ctx: TelegrafContext): Promise<void> {
 }
 
 bot.on('message', async ctx => {
-	await records.add(ctx.message as Message)
+	await records.add(ctx.message)
 })
 
 bot.on('edited_message', async ctx => {
-	await records.add(ctx.editedMessage as Message)
+	await records.add(ctx.editedMessage)
 })
 
-async function trySendDocument(ctx: TelegrafContext, filenamePrefix: string, history: readonly Message[], formatType: FormatType): Promise<void> {
+async function trySendDocument(ctx: MyContext, filenamePrefix: string, history: readonly Message[], formatType: FormatType): Promise<void> {
 	try {
 		const documents = formatByType(history, formatType)
 		await Promise.all(

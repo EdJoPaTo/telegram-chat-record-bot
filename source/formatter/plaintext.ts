@@ -58,6 +58,7 @@ const OTHER_MESSAGE_TYPE_EXCLUDE: Set<string> = new Set([
 	'from',
 	'message_id',
 	'reply_to_message',
+	'sender_chat',
 	'text'
 ])
 

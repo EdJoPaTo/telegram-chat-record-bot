@@ -16,7 +16,7 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "chore(github-actions):"
+      prefix: "chore(github):"
 
   - package-ecosystem: "docker"
     directory: "/"

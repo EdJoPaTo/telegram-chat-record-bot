@@ -7,7 +7,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    versioning-strategy: increase-if-necessary
+    versioning-strategy: widen
     commit-message:
       prefix: "chore(npm):"
 
@@ -16,11 +16,4 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "chore(github):"
-
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "chore(docker):"
+      prefix: "chore(actions):"

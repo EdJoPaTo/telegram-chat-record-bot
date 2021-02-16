@@ -14,22 +14,10 @@
 		"node": ">=14"
 	},
 	"scripts": {
-		"build": "del dist && tsc",
-		"prepack": "npm run build",
+		"build": "del-cli dist && tsc",
 		"start": "ts-node source/index.ts",
-		"test": "tsc && xo"
+		"test": "tsc --sourceMap && xo"
 	},
-	"main": "dist",
-	"types": "dist",
-	"files": [
-		"dist",
-		"!*.test.*"
-	],
-	"keywords": [
-		"telegram",
-		"record",
-		"log"
-	],
 	"dependencies": {
 		"@edjopato/datastore": "^0.3.2",
 		"@edjopato/telegraf-i18n": "^0.2.0",

@@ -10,7 +10,7 @@ export const bot = new Composer<MyContext>()
 bot.on('left_chat_member', (ctx, next) => {
 	const user = ctx.message.left_chat_member
 	if (user.username === ctx.me) {
-		records.remove(ctx.chat!.id)
+		records.remove(ctx.chat.id)
 		return
 	}
 
@@ -32,7 +32,7 @@ bot.on('message', async (ctx, next) => {
 	}
 
 	if ('migrate_to_chat_id' in ctx.message) {
-		await records.migrateToNewGroupId(ctx.chat!.id, ctx.message.migrate_to_chat_id)
+		await records.migrateToNewGroupId(ctx.chat.id, ctx.message.migrate_to_chat_id)
 		return
 	}
 
@@ -45,7 +45,7 @@ bot.on('message', async (ctx, next) => {
 
 bot.command('finish', async ctx => {
 	await sendRecording(ctx)
-	records.remove(ctx.chat!.id)
+	records.remove(ctx.chat.id)
 	await ctx.reply(ctx.i18n.t('group.finish.greeting'))
 	await ctx.leaveChat()
 })

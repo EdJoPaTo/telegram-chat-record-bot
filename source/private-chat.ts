@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 
-import {MyContext} from './types'
+import {MyContext} from './types.js'
 
 export const bot = new Composer<MyContext>()
 

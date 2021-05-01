@@ -12,9 +12,10 @@
 	},
 	"scripts": {
 		"build": "del-cli dist && tsc",
-		"start": "ts-node source/index.ts",
+		"start": "node --loader ts-node/esm source/index.ts",
 		"test": "tsc --sourceMap && xo"
 	},
+	"type": "module",
 	"engines": {
 		"node": ">=14"
 	},
@@ -26,19 +27,24 @@
 		"telegraf-middleware-console-time": "^2.0.0"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^0.8.0",
+		"@sindresorhus/tsconfig": "^1.0.1",
 		"@types/node": "^15.0.1",
 		"del-cli": "^3.0.0",
 		"ts-node": "^9.0.0",
 		"typegram": "^3.0.2",
-		"typescript": "^4.1.2",
+		"typescript": "^4.2.3",
 		"xo": "^0.39.1"
 	},
 	"xo": {
 		"semicolon": false,
 		"rules": {
 			"@typescript-eslint/no-non-null-assertion": "off",
-			"@typescript-eslint/prefer-readonly-parameter-types": "off"
+			"@typescript-eslint/prefer-readonly-parameter-types": "off",
+			"ava/no-ignored-test-files": "off",
+			"import/extensions": [
+				"error",
+				"ignorePackages"
+			]
 		}
 	}
 }

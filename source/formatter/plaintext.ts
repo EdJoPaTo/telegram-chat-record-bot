@@ -1,7 +1,7 @@
 import {Message, MessageEntity, User} from 'typegram'
 
-import {getEntites} from './helper'
-import {Result} from './type'
+import {getEntites} from './helper.js'
+import {Result} from './type.js'
 
 export function plaintext(history: readonly Message[]): Result[] {
 	const messageDict: Record<number, Message> = {}

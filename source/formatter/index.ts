@@ -1,12 +1,12 @@
 import {Message} from 'typegram'
 
-import {Result} from './type'
+import {Result} from './type.js'
 
-import {plaintext} from './plaintext'
-import {raw} from './simple'
+import {plaintext} from './plaintext.js'
+import {raw} from './simple.js'
 
-export * from './type'
-export * from './simple'
+export * from './type.js'
+export * from './simple.js'
 
 export type FormatType = 'raw' | 'plaintext'
 export const FORMATS: FormatType[] = ['raw', 'plaintext']

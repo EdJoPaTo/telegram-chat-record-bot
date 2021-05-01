@@ -1,9 +1,9 @@
 import {Composer} from 'telegraf'
 import {Message} from 'typegram'
 
-import {formatByType, FormatType, FORMATS} from './formatter'
-import {MyContext} from './types'
-import * as records from './records'
+import {formatByType, FormatType, FORMATS} from './formatter/index.js'
+import {MyContext} from './types.js'
+import * as records from './records.js'
 
 export const bot = new Composer<MyContext>()
 

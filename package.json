@@ -10,13 +10,13 @@
 		"email": "telegram-chat-record-bot@edjopato.de",
 		"url": "https://edjopato.de"
 	},
-	"engines": {
-		"node": ">=14"
-	},
 	"scripts": {
 		"build": "del-cli dist && tsc",
 		"start": "ts-node source/index.ts",
 		"test": "tsc --sourceMap && xo"
+	},
+	"engines": {
+		"node": ">=14"
 	},
 	"dependencies": {
 		"@edjopato/datastore": "^0.3.2",

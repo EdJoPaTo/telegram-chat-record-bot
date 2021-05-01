@@ -22,7 +22,7 @@ bot.on('message', async (ctx, next) => {
 		return
 	}
 
-	if ('new_chat_members' in ctx.message && ctx.message.new_chat_members?.length === 1 && ctx.message.new_chat_members[0]!.username === ctx.me) {
+	if ('new_chat_members' in ctx.message && ctx.message.new_chat_members?.length === 1 && ctx.message.new_chat_members[0]?.username === ctx.me) {
 		// Don't log myself joining the chat
 		return ctx.reply(ctx.i18n.t('group.joined'))
 	}

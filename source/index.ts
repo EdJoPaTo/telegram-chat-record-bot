@@ -12,7 +12,6 @@ process.title = 'chat-record-tgbot'
 
 const token = (existsSync('/run/secrets/bot-token.txt') && readFileSync('/run/secrets/bot-token.txt', 'utf8').trim()) ||
 	(existsSync('bot-token.txt') && readFileSync('bot-token.txt', 'utf8').trim()) ||
-	// eslint-disable-next-line @typescript-eslint/dot-notation
 	process.env['BOT_TOKEN']
 if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via file (bot-token.txt) or environment variable (BOT_TOKEN)')
@@ -20,7 +19,6 @@ if (!token) {
 
 const bot = new Telegraf<MyContext>(token)
 
-// eslint-disable-next-line @typescript-eslint/dot-notation
 if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(generateUpdateMiddleware())
 }
@@ -42,7 +40,6 @@ bot.use(Composer.chatType('channel', async ctx => {
 	return ctx.leaveChat()
 }))
 
-// eslint-disable-next-line @typescript-eslint/dot-notation
 if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(ctx => {
 		console.warn('no one handled this', ctx.updateType, ctx.update)

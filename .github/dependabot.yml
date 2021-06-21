@@ -8,13 +8,7 @@ updates:
     open-pull-requests-limit: 30
     schedule:
       interval: "monthly"
+      time: "03:37" # UTC
     versioning-strategy: increase-if-necessary
     commit-message:
       prefix: "chore(npm):"
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-    commit-message:
-      prefix: "ci(actions):"

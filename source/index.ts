@@ -1,7 +1,7 @@
 import {existsSync, readFileSync} from 'fs'
 
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
-import {I18n as TelegrafI18n} from '@edjopato/telegraf-i18n'
+import {I18n as TelegrafI18n} from '@grammyjs/i18n'
 import {Bot} from 'grammy'
 
 import {MyContext} from './types.js'

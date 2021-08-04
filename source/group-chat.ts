@@ -1,7 +1,7 @@
 import {Buffer} from 'buffer'
 
-import {Composer} from 'telegraf'
-import {Message} from 'typegram'
+import {Composer, InputFile} from 'grammy'
+import {Message} from '@grammyjs/types'
 
 import {formatByType, FormatType, FORMATS} from './formatter/index.js'
 import {MyContext} from './types.js'
@@ -9,40 +9,29 @@ import * as records from './records.js'
 
 export const bot = new Composer<MyContext>()
 
-bot.on('left_chat_member', (ctx, next) => {
-	const user = ctx.message.left_chat_member
-	if (user.username === ctx.me) {
-		records.remove(ctx.chat.id)
-		return
-	}
-
-	return next()
+bot.on(':left_chat_member:me', ctx => {
+	records.remove(ctx.chat.id)
 })
 
-bot.on('message', async (ctx, next) => {
-	if (!ctx.message) {
-		return
-	}
+bot.on(':new_chat_members:me', async ctx => {
+	// Don't log myself joining the chat
+	await ctx.reply(ctx.i18n.t('group.joined'))
+})
 
-	if ('new_chat_members' in ctx.message && ctx.message.new_chat_members?.length === 1 && ctx.message.new_chat_members[0]?.username === ctx.me) {
-		// Don't log myself joining the chat
-		return ctx.reply(ctx.i18n.t('group.joined'))
-	}
+bot.on([':group_chat_created', ':supergroup_chat_created'], async ctx => {
+	await ctx.reply(ctx.i18n.t('group.joined'))
+})
 
-	if ('group_chat_created' in ctx.message || 'supergroup_chat_created' in ctx.message) {
-		return ctx.reply(ctx.i18n.t('group.joined'))
-	}
+bot.on(':migrate_to_chat_id', async ctx => {
+	await records.migrateToNewGroupId(ctx.chat.id, ctx.message!.migrate_to_chat_id)
+})
 
-	if ('migrate_to_chat_id' in ctx.message) {
-		await records.migrateToNewGroupId(ctx.chat.id, ctx.message.migrate_to_chat_id)
-		return
-	}
+bot.on(':migrate_from_chat_id', () => {
+	// Already handled with migrate_to_chat
+})
 
-	if ('migrate_from_chat_id' in ctx.message) {
-		return
-	}
-
-	return next()
+bot.on('my_chat_member', () => {
+	// Already handled via other events
 })
 
 bot.command('finish', async ctx => {
@@ -95,10 +84,9 @@ async function trySendDocument(ctx: MyContext, filenamePrefix: string, history: 
 	try {
 		const documents = formatByType(history, formatType)
 		await Promise.all(
-			documents.map(async o => ctx.replyWithDocument({
-				filename: filenamePrefix + o.filenameSuffix,
-				source: Buffer.from(o.content),
-			})),
+			documents.map(async o => ctx.replyWithDocument(
+				new InputFile(Buffer.from(o.content), filenamePrefix + o.filenameSuffix),
+			)),
 		)
 	} catch (error: unknown) {
 		console.error('ERROR sending', formatType, error)

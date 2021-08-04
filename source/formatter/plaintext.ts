@@ -1,4 +1,4 @@
-import {Message, MessageEntity, User} from 'typegram'
+import {Message, MessageEntity, User} from '@grammyjs/types'
 
 import {getEntites} from './helper.js'
 import {Result} from './type.js'

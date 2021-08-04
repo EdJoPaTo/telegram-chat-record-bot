@@ -1,5 +1,5 @@
 import {KeyValueInMemoryFiles} from '@edjopato/datastore'
-import {Message} from 'typegram'
+import {Message} from '@grammyjs/types'
 
 const data = new KeyValueInMemoryFiles<Message[]>('persist/records')
 

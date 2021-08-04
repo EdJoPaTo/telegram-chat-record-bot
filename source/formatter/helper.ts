@@ -1,4 +1,4 @@
-import {Message, MessageEntity} from 'typegram'
+import {Message, MessageEntity} from '@grammyjs/types'
 
 export function getEntites(message: Partial<Message>): ReadonlyArray<Readonly<MessageEntity>> {
 	if ('entities' in message && message.entities) {

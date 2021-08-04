@@ -2,7 +2,7 @@ import {existsSync, readFileSync} from 'fs'
 
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
 import {I18n as TelegrafI18n} from '@edjopato/telegraf-i18n'
-import {Telegraf, Composer} from 'telegraf'
+import {Bot} from 'grammy'
 
 import {MyContext} from './types.js'
 import * as groupChat from './group-chat.js'
@@ -17,7 +17,7 @@ if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via file (bot-token.txt) or environment variable (BOT_TOKEN)')
 }
 
-const bot = new Telegraf<MyContext>(token)
+const bot = new Bot<MyContext>(token)
 
 if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(generateUpdateMiddleware())
@@ -30,35 +30,42 @@ const i18n = new TelegrafI18n({
 	useSession: false,
 })
 
-bot.use(i18n.middleware())
+bot.use(i18n.middleware() as any)
 
-bot.use(Composer.privateChat(privateChat.bot.middleware()))
-bot.use(Composer.groupChat(groupChat.bot.middleware()))
+bot.filter(o => o.chat?.type === 'private').use(privateChat.bot.middleware())
+bot.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup').use(groupChat.bot.middleware())
 
-bot.use(Composer.chatType('channel', async ctx => {
+bot.on('my_chat_member', () => {
+	// Dont care about membership changes.
+	// The relevant ones are getting logged anyway.
+	// TODO: remove this when ctx.chat.type === 'group' works for this as its better to be handled there.
+})
+
+bot.filter(o => o.chat?.type === 'channel').use(async ctx => {
 	await ctx.reply(ctx.i18n.t('channel.fail'))
 	return ctx.leaveChat()
-}))
+})
 
 if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(ctx => {
-		console.warn('no one handled this', ctx.updateType, ctx.update)
+		console.warn('no one handled this', ctx.update)
 	})
 }
 
 bot.catch((error: unknown) => {
-	console.error('telegraf error occured', error)
+	console.error('bot error occured', error)
 })
 
 async function startup(): Promise<void> {
 	try {
-		await bot.telegram.setMyCommands([
+		await bot.api.setMyCommands([
 			{command: 'finish', description: 'finish recording'},
 			{command: 'peek', description: 'peek at the current recording without ending it'},
 		])
 
-		await bot.launch()
-		console.log(new Date(), 'Bot started as', bot.botInfo?.username)
+		const {username} = await bot.api.getMe()
+		console.log(new Date(), 'Bot starts as', username)
+		await bot.start()
 	} catch (error: unknown) {
 		console.error('startup failed:', error)
 	}

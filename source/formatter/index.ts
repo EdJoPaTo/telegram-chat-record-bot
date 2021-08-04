@@ -1,4 +1,4 @@
-import {Message} from 'typegram'
+import {Message} from '@grammyjs/types'
 
 import {Result} from './type.js'
 

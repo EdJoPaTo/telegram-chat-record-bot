@@ -30,7 +30,7 @@ const i18n = new TelegrafI18n({
 	useSession: false,
 })
 
-bot.use(i18n.middleware() as any)
+bot.use(i18n.middleware())
 
 bot.filter(o => o.chat?.type === 'private').use(privateChat.bot.middleware())
 bot.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup').use(groupChat.bot.middleware())

@@ -1,3 +1,5 @@
+import {Buffer} from 'buffer'
+
 import {Composer} from 'telegraf'
 import {Message} from 'typegram'
 
@@ -68,7 +70,7 @@ async function sendRecording(ctx: MyContext): Promise<void> {
 	}
 
 	filenameParts.push(
-		new Date(history[0]!.date * 1000).toISOString().slice(0, -5)
+		new Date(history[0]!.date * 1000).toISOString().slice(0, -5),
 	)
 
 	const filenamePrefix = filenameParts
@@ -77,7 +79,7 @@ async function sendRecording(ctx: MyContext): Promise<void> {
 		.replace(/[:/\\]/g, '-') + '-'
 
 	await Promise.all(FORMATS.map(async o =>
-		trySendDocument(ctx, filenamePrefix, history, o)
+		trySendDocument(ctx, filenamePrefix, history, o),
 	))
 }
 
@@ -95,8 +97,8 @@ async function trySendDocument(ctx: MyContext, filenamePrefix: string, history: 
 		await Promise.all(
 			documents.map(async o => ctx.replyWithDocument({
 				filename: filenamePrefix + o.filenameSuffix,
-				source: Buffer.from(o.content)
-			}))
+				source: Buffer.from(o.content),
+			})),
 		)
 	} catch (error: unknown) {
 		console.error('ERROR sending', formatType, error)

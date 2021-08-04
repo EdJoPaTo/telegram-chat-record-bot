@@ -59,7 +59,7 @@ const OTHER_MESSAGE_TYPE_EXCLUDE: Set<string> = new Set([
 	'message_id',
 	'reply_to_message',
 	'sender_chat',
-	'text'
+	'text',
 ])
 
 function formatContent(message: Partial<Message>): string {

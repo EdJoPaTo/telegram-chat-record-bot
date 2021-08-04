@@ -10,9 +10,9 @@ import * as privateChat from './private-chat.js'
 
 process.title = 'chat-record-tgbot'
 
-const token = (existsSync('/run/secrets/bot-token.txt') && readFileSync('/run/secrets/bot-token.txt', 'utf8').trim()) ||
-	(existsSync('bot-token.txt') && readFileSync('bot-token.txt', 'utf8').trim()) ||
-	process.env['BOT_TOKEN']
+const token = (existsSync('/run/secrets/bot-token.txt') && readFileSync('/run/secrets/bot-token.txt', 'utf8').trim())
+	|| (existsSync('bot-token.txt') && readFileSync('bot-token.txt', 'utf8').trim())
+	|| process.env['BOT_TOKEN']
 if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via file (bot-token.txt) or environment variable (BOT_TOKEN)')
 }
@@ -27,7 +27,7 @@ const i18n = new TelegrafI18n({
 	directory: 'locales',
 	defaultLanguage: 'en',
 	defaultLanguageOnMissing: true,
-	useSession: false
+	useSession: false,
 })
 
 bot.use(i18n.middleware())
@@ -54,7 +54,7 @@ async function startup(): Promise<void> {
 	try {
 		await bot.telegram.setMyCommands([
 			{command: 'finish', description: 'finish recording'},
-			{command: 'peek', description: 'peek at the current recording without ending it'}
+			{command: 'peek', description: 'peek at the current recording without ending it'},
 		])
 
 		await bot.launch()

@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@edjopato/datastore": "^0.4.0",
-		"@grammyjs/i18n": "^0.3.0",
+		"@grammyjs/i18n": "^0.5.0",
 		"grammy": "^1.2.0",
 		"source-map-support": "^0.5.16",
 		"telegraf-middleware-console-time": "^2.0.0"

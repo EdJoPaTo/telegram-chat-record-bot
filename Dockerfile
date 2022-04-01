@@ -26,4 +26,4 @@ COPY --from=packages /build/node_modules ./node_modules
 COPY locales locales
 COPY --from=builder /build/dist ./
 
-CMD node -r source-map-support/register index.js
+CMD node --enable-source-maps index.js

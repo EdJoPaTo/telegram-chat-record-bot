@@ -1,6 +1,4 @@
 import {Context as BaseContext} from 'grammy'
-import {I18nContext} from '@grammyjs/i18n'
+import {FluentContextFlavor} from '@grammyjs/fluent'
 
-export interface MyContext extends BaseContext {
-	readonly i18n: I18nContext;
-}
+export type MyContext = BaseContext & FluentContextFlavor

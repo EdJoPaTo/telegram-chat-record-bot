@@ -1,7 +1,7 @@
-import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
-import {I18n as TelegrafI18n} from '@grammyjs/i18n'
 import {Bot} from 'grammy'
-
+import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
+import {useFluent} from '@grammyjs/fluent'
+import {fluent, loadLocales} from './translation.js'
 import {MyContext} from './types.js'
 import * as groupChat from './group-chat.js'
 import * as privateChat from './private-chat.js'
@@ -19,14 +19,10 @@ if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(generateUpdateMiddleware())
 }
 
-const i18n = new TelegrafI18n({
-	directory: 'locales',
-	defaultLanguage: 'en',
-	defaultLanguageOnMissing: true,
-	useSession: false,
-})
-
-bot.use(i18n.middleware())
+bot.use(useFluent({
+	defaultLocale: 'en',
+	fluent,
+}))
 
 bot.filter(o => o.chat?.type === 'private').use(privateChat.bot.middleware())
 bot.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup').use(groupChat.bot.middleware())
@@ -38,7 +34,7 @@ bot.on('my_chat_member', () => {
 })
 
 bot.filter(o => o.chat?.type === 'channel').use(async ctx => {
-	await ctx.reply(ctx.i18n.t('channel.fail'))
+	await ctx.reply(ctx.t('channel-fail'))
 	return ctx.leaveChat()
 })
 
@@ -54,6 +50,8 @@ bot.catch((error: unknown) => {
 
 async function startup(): Promise<void> {
 	try {
+		await loadLocales()
+
 		await bot.api.setMyCommands([
 			{command: 'finish', description: 'finish recording'},
 			{command: 'peek', description: 'peek at the current recording without ending it'},

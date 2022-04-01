@@ -21,7 +21,8 @@
 	},
 	"dependencies": {
 		"@edjopato/datastore": "^0.4.0",
-		"@grammyjs/i18n": "^0.5.0",
+		"@grammyjs/fluent": "^1.0.3",
+		"@moebius/fluent": "^1.1.0",
 		"grammy": "^1.2.0",
 		"telegraf-middleware-console-time": "^2.0.0"
 	},

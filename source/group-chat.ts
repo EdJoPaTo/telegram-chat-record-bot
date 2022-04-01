@@ -15,11 +15,11 @@ bot.on(':left_chat_member:me', ctx => {
 
 bot.on(':new_chat_members:me', async ctx => {
 	// Don't log myself joining the chat
-	await ctx.reply(ctx.i18n.t('group.joined'))
+	await ctx.reply(ctx.t('group-joined'))
 })
 
 bot.on([':group_chat_created', ':supergroup_chat_created'], async ctx => {
-	await ctx.reply(ctx.i18n.t('group.joined'))
+	await ctx.reply(ctx.t('group-joined'))
 })
 
 bot.on(':migrate_to_chat_id', async ctx => {
@@ -37,19 +37,19 @@ bot.on('my_chat_member', () => {
 bot.command('finish', async ctx => {
 	await sendRecording(ctx)
 	records.remove(ctx.chat.id)
-	await ctx.reply(ctx.i18n.t('group.finish.greeting'))
+	await ctx.reply(ctx.t('group-finish-greeting'))
 	await ctx.leaveChat()
 })
 
 bot.command('peek', async ctx => {
-	await ctx.reply(ctx.i18n.t('group.peek'))
+	await ctx.reply(ctx.t('group-peek'))
 	await sendRecording(ctx)
 })
 
 async function sendRecording(ctx: MyContext): Promise<void> {
 	const history = records.get(ctx.chat!.id)
 	if (history.length === 0) {
-		await ctx.reply(ctx.i18n.t('group.finish.empty'))
+		await ctx.reply(ctx.t('group-finish-empty'))
 		return
 	}
 

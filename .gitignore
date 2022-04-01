@@ -8,5 +8,4 @@ yarn.lock
 botfather-settings/*.png
 
 # botfiles
-bot-token.txt
 persist

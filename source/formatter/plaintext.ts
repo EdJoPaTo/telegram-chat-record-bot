@@ -14,7 +14,7 @@ export function plaintext(history: readonly Message[]): Result[] {
 		.sort((a, b) => a.date - b.date)
 	const entries = messages
 		.map(o => formatIndividualMessage(o))
-		.filter(o => o)
+		.filter(Boolean)
 	const linuxContent = entries.join('\n') + '\n'
 	const windowsContent = linuxContent.replace(/\n/g, '\r\n')
 

@@ -1,4 +1,4 @@
-import {Buffer} from 'buffer'
+import {Buffer} from 'node:buffer'
 
 import {Composer, InputFile} from 'grammy'
 import {Message} from '@grammyjs/types'
@@ -63,7 +63,7 @@ async function sendRecording(ctx: MyContext): Promise<void> {
 	)
 
 	const filenamePrefix = filenameParts
-		.filter(o => o)
+		.filter(Boolean)
 		.join('-')
 		.replace(/[:/\\]/g, '-') + '-'
 

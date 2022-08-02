@@ -1,4 +1,4 @@
-import {Message} from '@grammyjs/types'
+import {Message} from 'grammy/types'
 
 import {Result} from './type.js'
 

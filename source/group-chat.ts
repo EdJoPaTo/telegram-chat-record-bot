@@ -1,7 +1,7 @@
 import {Buffer} from 'node:buffer'
 
 import {Composer, InputFile} from 'grammy'
-import {Message} from '@grammyjs/types'
+import {Message} from 'grammy/types'
 
 import {formatByType, FormatType, FORMATS} from './formatter/index.js'
 import {MyContext} from './types.js'

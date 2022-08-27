@@ -29,7 +29,7 @@
 		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/node": "^18.0.6",
 		"typescript": "^4.2.3",
-		"xo": "^0.50.0"
+		"xo": "^0.52.2"
 	},
 	"xo": {
 		"semicolon": false,

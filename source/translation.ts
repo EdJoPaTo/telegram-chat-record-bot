@@ -5,10 +5,15 @@ export const fluent = new Fluent()
 
 export async function loadLocales() {
 	const entries = await readdir('locales')
-	const locales = entries.filter(o => o.endsWith('.ftl')).map(o => o.replace(/\.ftl$/, ''))
+	const locales = entries.filter(o => o.endsWith('.ftl')).map(o =>
+		o.replace(/\.ftl$/, ''),
+	)
 
 	for (const locale of locales) {
 		// eslint-disable-next-line no-await-in-loop
-		await fluent.addTranslation({locales: locale, filePath: `locales/${locale}.ftl`})
+		await fluent.addTranslation({
+			locales: locale,
+			filePath: `locales/${locale}.ftl`,
+		})
 	}
 }

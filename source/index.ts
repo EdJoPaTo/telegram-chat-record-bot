@@ -2,15 +2,17 @@ import {Bot} from 'grammy'
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
 import {useFluent} from '@grammyjs/fluent'
 import {fluent, loadLocales} from './translation.js'
-import {MyContext} from './types.js'
 import * as groupChat from './group-chat.js'
 import * as privateChat from './private-chat.js'
+import type {MyContext} from './types.js'
 
 process.title = 'chat-record-tgbot'
 
 const token = process.env['BOT_TOKEN']
 if (!token) {
-	throw new Error('You have to provide the bot-token from @BotFather via environment variable (BOT_TOKEN)')
+	throw new Error(
+		'You have to provide the bot-token from @BotFather via environment variable (BOT_TOKEN)',
+	)
 }
 
 const bot = new Bot<MyContext>(token)
@@ -25,7 +27,8 @@ bot.use(useFluent({
 }))
 
 bot.filter(o => o.chat?.type === 'private').use(privateChat.bot.middleware())
-bot.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup').use(groupChat.bot.middleware())
+bot.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup')
+	.use(groupChat.bot.middleware())
 
 bot.on('my_chat_member', () => {
 	// Dont care about membership changes.
@@ -54,7 +57,10 @@ async function startup(): Promise<void> {
 
 		await bot.api.setMyCommands([
 			{command: 'finish', description: 'finish recording'},
-			{command: 'peek', description: 'peek at the current recording without ending it'},
+			{
+				command: 'peek',
+				description: 'peek at the current recording without ending it',
+			},
 		])
 
 		const {username} = await bot.api.getMe()

@@ -1,7 +1,6 @@
-import {Message, MessageEntity, User} from 'grammy/types'
-
+import type {Message, MessageEntity, User} from 'grammy/types'
 import {getEntites} from './helper.js'
-import {Result} from './type.js'
+import type {Result} from './type.js'
 
 export function plaintext(history: readonly Message[]): Result[] {
 	const messageDict: Record<number, Message> = {}
@@ -47,7 +46,7 @@ function formatTimestamp(unixTimestamp: number): string {
 	return new Date(unixTimestamp * 1000).toISOString().slice(0, -5)
 }
 
-const OTHER_MESSAGE_TYPE_EXCLUDE: Set<string> = new Set([
+const OTHER_MESSAGE_TYPE_EXCLUDE = new Set([
 	'caption',
 	'chat',
 	'date',
@@ -73,7 +72,9 @@ function formatContent(message: Partial<Message>): string {
 	if ('reply_to_message' in message && message.reply_to_message) {
 		const repliedToName = formatUser(message.reply_to_message.from)
 		const repliedToContent = formatContent(message.reply_to_message)
-		const shorted = repliedToContent.length > 20 ? repliedToContent.slice(0, 20) + '…' : repliedToContent
+		const shorted = repliedToContent.length > 20
+			? repliedToContent.slice(0, 20) + '…'
+			: repliedToContent
 
 		parts.push(`reply to <${repliedToName}> "${shorted}"`)
 	}
@@ -94,7 +95,9 @@ function formatContent(message: Partial<Message>): string {
 	}
 
 	const entitiesOfInterest = getEntites(message)
-		.filter((o): o is Readonly<MessageEntity.TextLinkMessageEntity> => o.type === 'text_link')
+		.filter((o): o is Readonly<MessageEntity.TextLinkMessageEntity> =>
+			o.type === 'text_link',
+		)
 	if (entitiesOfInterest.length > 0) {
 		parts.push(`[${entitiesOfInterest.map(o => o.url).join(', ')}]`)
 	}

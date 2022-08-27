@@ -1,11 +1,11 @@
 import {Buffer} from 'node:buffer'
 
 import {Composer, InputFile} from 'grammy'
-import {Message} from 'grammy/types'
+import type {Message} from 'grammy/types'
 
-import {formatByType, FormatType, FORMATS} from './formatter/index.js'
-import {MyContext} from './types.js'
+import {formatByType, FORMATS, type FormatType} from './formatter/index.js'
 import * as records from './records.js'
+import type {MyContext} from './types.js'
 
 export const bot = new Composer<MyContext>()
 
@@ -23,7 +23,10 @@ bot.on([':group_chat_created', ':supergroup_chat_created'], async ctx => {
 })
 
 bot.on(':migrate_to_chat_id', async ctx => {
-	await records.migrateToNewGroupId(ctx.chat.id, ctx.message!.migrate_to_chat_id)
+	await records.migrateToNewGroupId(
+		ctx.chat.id,
+		ctx.message!.migrate_to_chat_id,
+	)
 })
 
 bot.on(':migrate_from_chat_id', () => {
@@ -67,9 +70,9 @@ async function sendRecording(ctx: MyContext): Promise<void> {
 		.join('-')
 		.replace(/[:/\\]/g, '-') + '-'
 
-	await Promise.all(FORMATS.map(async o =>
-		trySendDocument(ctx, filenamePrefix, history, o),
-	))
+	await Promise.all(
+		FORMATS.map(async o => trySendDocument(ctx, filenamePrefix, history, o)),
+	)
 }
 
 bot.on('message', async ctx => {
@@ -80,13 +83,23 @@ bot.on('edited_message', async ctx => {
 	await records.add(ctx.editedMessage)
 })
 
-async function trySendDocument(ctx: MyContext, filenamePrefix: string, history: readonly Message[], formatType: FormatType): Promise<void> {
+async function trySendDocument(
+	ctx: MyContext,
+	filenamePrefix: string,
+	history: readonly Message[],
+	formatType: FormatType,
+): Promise<void> {
 	try {
 		const documents = formatByType(history, formatType)
 		await Promise.all(
-			documents.map(async o => ctx.replyWithDocument(
-				new InputFile(Buffer.from(o.content), filenamePrefix + o.filenameSuffix),
-			)),
+			documents.map(async o =>
+				ctx.replyWithDocument(
+					new InputFile(
+						Buffer.from(o.content),
+						filenamePrefix + o.filenameSuffix,
+					),
+				),
+			),
 		)
 	} catch (error: unknown) {
 		console.error('ERROR sending', formatType, error)

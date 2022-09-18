@@ -1,7 +1,6 @@
 import {Bot} from 'grammy'
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
-import {useFluent} from '@grammyjs/fluent'
-import {fluent, loadLocales} from './translation.js'
+import {I18n} from '@grammyjs/i18n'
 import * as groupChat from './group-chat.js'
 import * as privateChat from './private-chat.js'
 import type {MyContext} from './types.js'
@@ -21,10 +20,11 @@ if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(generateUpdateMiddleware())
 }
 
-bot.use(useFluent({
+const i18n = new I18n({
 	defaultLocale: 'en',
-	fluent,
-}))
+	directory: 'locales',
+})
+bot.use(i18n.middleware())
 
 bot.filter(o => o.chat?.type === 'private').use(privateChat.bot.middleware())
 bot.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup')
@@ -53,8 +53,6 @@ bot.catch((error: unknown) => {
 
 async function startup(): Promise<void> {
 	try {
-		await loadLocales()
-
 		await bot.api.setMyCommands([
 			{command: 'finish', description: 'finish recording'},
 			{

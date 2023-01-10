@@ -14,11 +14,16 @@ export function formatByType(
 	type: FormatType,
 ): Result[] {
 	switch (type) {
-		case 'raw':
+		case 'raw': {
 			return raw(history)
-		case 'plaintext':
+		}
+
+		case 'plaintext': {
 			return plaintext(history)
-		default:
+		}
+
+		default: {
 			throw new Error('unknown type')
+		}
 	}
 }

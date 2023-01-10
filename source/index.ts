@@ -47,27 +47,21 @@ if (process.env['NODE_ENV'] !== 'production') {
 	})
 }
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 bot.catch((error: unknown) => {
 	console.error('bot error occured', error)
 })
 
-async function startup(): Promise<void> {
-	try {
-		await bot.api.setMyCommands([
-			{command: 'finish', description: 'finish recording'},
-			{
-				command: 'peek',
-				description: 'peek at the current recording without ending it',
-			},
-		])
+await bot.api.setMyCommands([
+	{command: 'finish', description: 'finish recording'},
+	{
+		command: 'peek',
+		description: 'peek at the current recording without ending it',
+	},
+])
 
-		const {username} = await bot.api.getMe()
-		console.log(new Date(), 'Bot starts as', username)
-		await bot.start()
-	} catch (error: unknown) {
-		console.error('startup failed:', error)
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-startup()
+await bot.start({
+	onStart(botInfo) {
+		console.log(new Date(), 'Bot starts as', botInfo.username)
+	},
+})

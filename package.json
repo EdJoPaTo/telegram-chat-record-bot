@@ -19,7 +19,7 @@
 		"node": ">=18"
 	},
 	"dependencies": {
-		"@edjopato/datastore": "^0.5.0",
+		"@edjopato/datastore": "^0.6.0",
 		"@grammyjs/i18n": "^1.0.1",
 		"grammy": "^1.10.1",
 		"telegraf-middleware-console-time": "^2.0.0"

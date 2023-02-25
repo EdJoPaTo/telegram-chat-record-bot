@@ -1,7 +1,7 @@
 import {KeyValueInMemoryFiles} from '@edjopato/datastore'
 import type {Message} from 'grammy/types'
 
-const data = new KeyValueInMemoryFiles<Message[]>('persist/records')
+const data = new KeyValueInMemoryFiles<string, Message[]>('persist/records')
 
 export async function add(message: Message): Promise<void> {
 	const id = String(message.chat.id)

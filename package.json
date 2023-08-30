@@ -11,7 +11,7 @@
 		"url": "https://edjopato.de"
 	},
 	"scripts": {
-		"start": "tsc --sourceMap && node --enable-source-maps dist/index.js",
+		"start": "tsc --sourceMap && node --enable-source-maps dist/telegram-chat-record-bot.js",
 		"test": "tsc --sourceMap && xo"
 	},
 	"type": "module",
@@ -34,8 +34,7 @@
 		"semicolon": false,
 		"rules": {
 			"@typescript-eslint/naming-convention": "off",
-			"ava/no-ignored-test-files": "off",
-			"n/prefer-global/process": "off"
+			"ava/no-ignored-test-files": "off"
 		}
 	}
 }

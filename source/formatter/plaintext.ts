@@ -15,7 +15,7 @@ export function plaintext(history: readonly Message[]): Result[] {
 		.map(o => formatIndividualMessage(o))
 		.filter(Boolean)
 	const linuxContent = entries.join('\n') + '\n'
-	const windowsContent = linuxContent.replace(/\n/g, '\r\n')
+	const windowsContent = linuxContent.replaceAll('\n', '\r\n')
 
 	return [{content: windowsContent, filenameSuffix: 'plaintext.txt'}]
 }

@@ -25,10 +25,10 @@
 		"telegraf-middleware-console-time": "^2.0.0"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^3.0.1",
+		"@sindresorhus/tsconfig": "^4.0.0",
 		"@types/node": "^18.0.6",
 		"typescript": "^5.1.6",
-		"xo": "^0.54.2"
+		"xo": "^0.56.0"
 	},
 	"xo": {
 		"semicolon": false,

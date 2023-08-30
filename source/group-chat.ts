@@ -66,7 +66,7 @@ async function sendRecording(ctx: MyContext): Promise<void> {
 	const filenamePrefix = filenameParts
 		.filter(Boolean)
 		.join('-')
-		.replace(/[:/\\]/g, '-') + '-'
+		.replaceAll(/[:/\\]/g, '-') + '-'
 
 	await Promise.all(
 		FORMATS.map(async o => trySendDocument(ctx, filenamePrefix, history, o)),

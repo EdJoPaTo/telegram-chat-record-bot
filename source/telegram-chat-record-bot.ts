@@ -13,11 +13,15 @@ if (!token) {
 	)
 }
 
-const bot = new Bot<MyContext>(token)
+const baseBot = new Bot<MyContext>(token)
 
 if (env['NODE_ENV'] !== 'production') {
-	bot.use(generateUpdateMiddleware())
+	baseBot.use(generateUpdateMiddleware())
 }
+
+const bot = baseBot.errorBoundary(({error}) => {
+	console.error('bot error occured', error)
+})
 
 const i18n = new I18n({
 	defaultLocale: 'en',
@@ -46,12 +50,7 @@ if (env['NODE_ENV'] !== 'production') {
 	})
 }
 
-// eslint-disable-next-line unicorn/prefer-top-level-await
-bot.catch((error: unknown) => {
-	console.error('bot error occured', error)
-})
-
-await bot.api.setMyCommands([
+await baseBot.api.setMyCommands([
 	{command: 'finish', description: 'finish recording'},
 	{
 		command: 'peek',
@@ -59,7 +58,7 @@ await bot.api.setMyCommands([
 	},
 ])
 
-await bot.start({
+await baseBot.start({
 	onStart(botInfo) {
 		console.log(new Date(), 'Bot starts as', botInfo.username)
 	},

@@ -1,13 +1,13 @@
-import type {Message} from 'grammy/types'
-import {plaintext} from './plaintext.js'
-import {raw} from './simple.js'
-import type {Result} from './type.js'
+import type {Message} from 'grammy/types';
+import {plaintext} from './plaintext.js';
+import {raw} from './simple.js';
+import type {Result} from './type.js';
 
-export * from './type.js'
-export * from './simple.js'
+export * from './type.js';
+export * from './simple.js';
 
-export const FORMATS = ['raw', 'plaintext'] as const
-export type FormatType = typeof FORMATS[number]
+export const FORMATS = ['raw', 'plaintext'] as const;
+export type FormatType = typeof FORMATS[number];
 
 export function formatByType(
 	history: readonly Message[],
@@ -15,15 +15,15 @@ export function formatByType(
 ): Result[] {
 	switch (type) {
 		case 'raw': {
-			return raw(history)
+			return raw(history);
 		}
 
 		case 'plaintext': {
-			return plaintext(history)
+			return plaintext(history);
 		}
 
 		default: {
-			throw new Error('unknown type')
+			throw new Error('unknown type');
 		}
 	}
 }

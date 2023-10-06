@@ -1,7 +1,7 @@
 {
 	"name": "telegram-chat-record-bot",
 	"private": true,
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"description": "A Telegram Bot to record messages in a given chat for a period of time",
 	"license": "MIT",
 	"repository": "EdJoPaTo/telegram-chat-record-bot",
@@ -25,7 +25,7 @@
 		"telegraf-middleware-console-time": "^2.0.0"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^4.0.0",
+		"@sindresorhus/tsconfig": "^5.0.0",
 		"@types/node": "^20.6.3",
 		"typescript": "^5.1.6",
 		"xo": "^0.56.0"

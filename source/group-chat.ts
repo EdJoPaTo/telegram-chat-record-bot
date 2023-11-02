@@ -1,4 +1,3 @@
-import {Buffer} from 'node:buffer';
 import {Composer, InputFile} from 'grammy';
 import type {Message} from 'grammy/types';
 import {formatByType, FORMATS, type FormatType} from './formatter/index.js';
@@ -93,7 +92,7 @@ async function trySendDocument(
 			documents.map(async o =>
 				ctx.replyWithDocument(
 					new InputFile(
-						Buffer.from(o.content),
+						new TextEncoder().encode(o.content),
 						filenamePrefix + o.filenameSuffix,
 					),
 				),

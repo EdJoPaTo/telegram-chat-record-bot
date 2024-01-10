@@ -1,4 +1,5 @@
 import type {Message} from 'grammy/types';
+import {unreachable} from './helper.js';
 import {plaintext} from './plaintext.js';
 import {raw} from './simple.js';
 import type {Result} from './type.js';
@@ -23,7 +24,7 @@ export function formatByType(
 		}
 
 		default: {
-			throw new Error('unknown type');
+			unreachable(type);
 		}
 	}
 }

@@ -1,5 +1,5 @@
-import type {Message, MessageEntity, User} from 'grammy/types';
-import {getEntites} from './helper.js';
+import type {Message, MessageEntity} from 'grammy/types';
+import {getEntites, unreachable} from './helper.js';
 import type {Result} from './type.js';
 
 export function plaintext(history: readonly Message[]): Result[] {
@@ -28,15 +28,15 @@ function formatIndividualMessage(message: Message): string {
 	return `${timestamp} <${sender}> ${text}`;
 }
 
-function formatUser(user: User | undefined): string {
+type MinimalUser = Readonly<{first_name: string; last_name?: string}>;
+function formatUser(user: MinimalUser | undefined): string {
 	if (!user) {
 		return '';
 	}
 
 	let sender = user.first_name;
 	if (user.last_name) {
-		sender += ' ';
-		sender += user.last_name;
+		sender += ' ' + user.last_name;
 	}
 
 	return sender;
@@ -53,7 +53,12 @@ const OTHER_MESSAGE_TYPE_EXCLUDE = new Set([
 	'edit_date',
 	'entities',
 	'forward_date',
+	'forward_from_chat',
+	'forward_from_message_id',
 	'forward_from',
+	'forward_origin',
+	'forward_sender_name',
+	'forward_signature',
 	'from',
 	'message_id',
 	'reply_to_message',
@@ -64,9 +69,52 @@ const OTHER_MESSAGE_TYPE_EXCLUDE = new Set([
 function formatContent(message: Partial<Message>): string {
 	const parts: string[] = [];
 
-	if ('forward_from' in message) {
-		const from = formatUser(message.forward_from);
-		parts.push(`forward <${from}>`);
+	if (message.forward_origin) {
+		const origin = message.forward_origin;
+		switch (origin.type) {
+			case 'user': {
+				const from = formatUser(origin.sender_user);
+				parts.push(`forward <${from}>`);
+				break;
+			}
+
+			case 'hidden_user': {
+				parts.push(`forward <${origin.sender_user_name}>`);
+				break;
+			}
+
+			case 'chat': {
+				const chat = origin.sender_chat;
+				if ('title' in chat) {
+					let from = chat.title;
+					if (origin.author_signature) {
+						from += '; ' + origin.author_signature;
+					}
+
+					parts.push(`forward <${from}>`);
+				} else {
+					// Probably unused as origin.type user is likely used?
+					const from = formatUser(chat);
+					parts.push(`forward <${from}>`);
+				}
+
+				break;
+			}
+
+			case 'channel': {
+				let from = origin.chat.title;
+				if (origin.author_signature) {
+					from += '; ' + origin.author_signature;
+				}
+
+				parts.push(`forward <${from}>`);
+				break;
+			}
+
+			default: {
+				unreachable(origin);
+			}
+		}
 	}
 
 	if ('reply_to_message' in message && message.reply_to_message) {

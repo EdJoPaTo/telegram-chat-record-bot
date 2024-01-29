@@ -1,7 +1,7 @@
 import {env} from 'node:process';
+import {I18n} from '@grammyjs/i18n';
 import {Bot} from 'grammy';
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time';
-import {I18n} from '@grammyjs/i18n';
 import * as groupChat from './group-chat.js';
 import * as privateChat from './private-chat.js';
 import type {MyContext} from './types.js';

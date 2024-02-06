@@ -1,5 +1,4 @@
 import type {Message} from 'grammy/types';
-import {unreachable} from './helper.js';
 import {plaintext} from './plaintext.js';
 import {raw} from './simple.js';
 import type {Result} from './type.js';
@@ -14,6 +13,7 @@ export function formatByType(
 	history: readonly Message[],
 	type: FormatType,
 ): Result[] {
+	// eslint-disable-next-line default-case
 	switch (type) {
 		case 'raw': {
 			return raw(history);
@@ -21,10 +21,6 @@ export function formatByType(
 
 		case 'plaintext': {
 			return plaintext(history);
-		}
-
-		default: {
-			unreachable(type);
 		}
 	}
 }

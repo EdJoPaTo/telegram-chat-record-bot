@@ -1,5 +1,5 @@
 import type {Message, MessageEntity} from 'grammy/types';
-import {getEntites, unreachable} from './helper.js';
+import {getEntites} from './helper.js';
 import type {Result} from './type.js';
 
 export function plaintext(history: readonly Message[]): Result[] {
@@ -71,6 +71,7 @@ function formatContent(message: Partial<Message>): string {
 
 	if (message.forward_origin) {
 		const origin = message.forward_origin;
+		// eslint-disable-next-line default-case
 		switch (origin.type) {
 			case 'user': {
 				const from = formatUser(origin.sender_user);
@@ -109,10 +110,6 @@ function formatContent(message: Partial<Message>): string {
 
 				parts.push(`forward <${from}>`);
 				break;
-			}
-
-			default: {
-				unreachable(origin);
 			}
 		}
 	}

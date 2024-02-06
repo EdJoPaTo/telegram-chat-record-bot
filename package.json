@@ -28,11 +28,12 @@
 		"@sindresorhus/tsconfig": "^5.0.0",
 		"@types/node": "^20.6.3",
 		"typescript": "^5.1.6",
-		"xo": "^0.56.0"
+		"xo": "^0.57.0"
 	},
 	"xo": {
 		"rules": {
-			"@typescript-eslint/naming-convention": "off"
+			"@typescript-eslint/naming-convention": "off",
+			"unicorn/prevent-abbreviations": "off"
 		}
 	}
 }

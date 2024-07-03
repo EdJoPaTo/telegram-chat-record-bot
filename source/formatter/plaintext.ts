@@ -71,7 +71,6 @@ function formatContent(message: Partial<Message>): string {
 
 	if (message.forward_origin) {
 		const origin = message.forward_origin;
-		// eslint-disable-next-line default-case
 		switch (origin.type) {
 			case 'user': {
 				const from = formatUser(origin.sender_user);

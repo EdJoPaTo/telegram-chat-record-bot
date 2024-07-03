@@ -13,7 +13,6 @@ export function formatByType(
 	history: readonly Message[],
 	type: FormatType,
 ): Result[] {
-	// eslint-disable-next-line default-case
 	switch (type) {
 		case 'raw': {
 			return raw(history);

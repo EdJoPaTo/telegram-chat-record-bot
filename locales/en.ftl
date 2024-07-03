@@ -1,6 +1,6 @@
 private-start =
   Hey {$firstname}!
-  Add me to a chat. I will start to record all the messages I can see as soon as I joined the group.
+  For a private chat nothing is recorded or saved. Add me to a group. I will start to record all the messages I can see as soon as I joined the group.
 
   If you like this bot send a thank you to {$username} or head to the GitHub Repository.
   {$repolink}
@@ -21,3 +21,10 @@ group-finish-greeting =
   Thanks for using, see you next time!
 group-finish-empty =
   There are no messages in the recording.
+group-privacy =
+  As long as this bot is within this group it records the activity in this group.
+
+  Use /finish to end the recording. I will leave the group and delete all data about it after sending the recording.
+  (Removing me from the group also deletes your data, but doesnt allow me to send the recording before leaving. You should use /finish instead.)
+
+  For the source code of this bot see {$repolink}

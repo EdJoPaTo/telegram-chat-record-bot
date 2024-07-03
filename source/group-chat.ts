@@ -46,6 +46,13 @@ bot.command('peek', async ctx => {
 	await sendRecording(ctx);
 });
 
+bot.command('privacy', async ctx =>
+	ctx.reply(
+		ctx.t('group-privacy', {
+			repolink: 'https://github.com/EdJoPaTo/telegram-chat-record-bot',
+		}),
+	));
+
 async function sendRecording(ctx: MyContext): Promise<void> {
 	const history = records.get(ctx.chat!.id);
 	if (history.length === 0) {

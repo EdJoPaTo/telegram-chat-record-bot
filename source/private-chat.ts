@@ -3,7 +3,7 @@ import type {MyContext} from './types.js';
 
 export const bot = new Composer<MyContext>();
 
-bot.command(['start', 'help', 'peek', 'finish'], async ctx => {
+bot.command(['start', 'help', 'privacy', 'peek', 'finish'], async ctx => {
 	let text = '';
 	text += ctx.t('private-start', {
 		firstname: ctx.from?.first_name ?? 'there',

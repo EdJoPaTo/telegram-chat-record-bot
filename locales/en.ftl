@@ -14,7 +14,7 @@ group-joined =
 
   Hints:
   - Currently bots can't see when messages are deleted. The recording will still contain these messages.
-  - Bots cant interact with each other (to prevent unwanted spam loops). Interactions with other bots will not be recorded.
+  - Bots can't interact with each other (to prevent unwanted spam loops). Interactions with other bots will not be recorded.
 group-peek =
   The recording is still running. This is only a snapshot. Use /finish when you wish to end the recording.
 group-finish-greeting =
@@ -25,6 +25,6 @@ group-privacy =
   As long as this bot is within this group it records the activity in this group.
 
   Use /finish to end the recording. I will leave the group and delete all data about it after sending the recording.
-  (Removing me from the group also deletes your data, but doesnt allow me to send the recording before leaving. You should use /finish instead.)
+  (Removing me from the group also deletes your data, but doesn't allow me to send the recording before leaving. You should use /finish instead.)
 
   For the source code of this bot see {$repolink}

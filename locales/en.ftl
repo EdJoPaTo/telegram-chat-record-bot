@@ -9,7 +9,7 @@ channel-fail =
 
   Sincerely, a random bot, added as an admin to this channel.
 group-joined =
-  I'll immediatly start recording messages. Just type ahead. 😎
+  I'll immediately start recording messages. Just type ahead. 😎
   When you need me to finish just use /finish.
 
   Hints:

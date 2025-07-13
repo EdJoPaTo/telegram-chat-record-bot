@@ -25,9 +25,8 @@
 		"telegraf-middleware-console-time": "^3.0.0"
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^7.0.0",
 		"@types/node": "^22.10.7",
-		"typescript": "^5.7.2",
+		"typescript": "^5.8.3",
 		"xo": "^0.60.0"
 	},
 	"xo": {

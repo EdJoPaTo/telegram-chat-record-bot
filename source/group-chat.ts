@@ -47,11 +47,9 @@ bot.command('peek', async ctx => {
 });
 
 bot.command('privacy', async ctx =>
-	ctx.reply(
-		ctx.t('group-privacy', {
-			repolink: 'https://github.com/EdJoPaTo/telegram-chat-record-bot',
-		}),
-	));
+	ctx.reply(ctx.t('group-privacy', {
+		repolink: 'https://github.com/EdJoPaTo/telegram-chat-record-bot',
+	})));
 
 async function sendRecording(ctx: MyContext): Promise<void> {
 	const history = records.get(ctx.chat!.id);
@@ -65,18 +63,14 @@ async function sendRecording(ctx: MyContext): Promise<void> {
 		filenameParts.push(ctx.chat.title);
 	}
 
-	filenameParts.push(
-		new Date(history[0]!.date * 1000).toISOString().slice(0, -5),
-	);
+	filenameParts.push(new Date(history[0]!.date * 1000).toISOString().slice(0, -5));
 
 	const filenamePrefix = filenameParts
 		.filter(Boolean)
 		.join('-')
 		.replaceAll(/[:/\\]/g, '-') + '-';
 
-	await Promise.all(
-		FORMATS.map(async o => trySendDocument(ctx, filenamePrefix, history, o)),
-	);
+	await Promise.all(FORMATS.map(async o => trySendDocument(ctx, filenamePrefix, history, o)));
 }
 
 bot.on('message', async ctx => {
@@ -95,16 +89,11 @@ async function trySendDocument(
 ): Promise<void> {
 	try {
 		const documents = formatByType(history, formatType);
-		await Promise.all(
-			documents.map(async o =>
-				ctx.replyWithDocument(
-					new InputFile(
-						new TextEncoder().encode(o.content),
-						filenamePrefix + o.filenameSuffix,
-					),
-				),
-			),
-		);
+		await Promise.all(documents.map(async o =>
+			ctx.replyWithDocument(new InputFile(
+				new TextEncoder().encode(o.content),
+				filenamePrefix + o.filenameSuffix,
+			))));
 	} catch (error: unknown) {
 		console.error('ERROR sending', formatType, error);
 		let text = '';

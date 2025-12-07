@@ -4,10 +4,10 @@ import {raw} from './simple.js';
 import type {Result} from './type.js';
 
 export * from './simple.js';
-export * from './type.js';
+export type * from './type.js';
 
 export const FORMATS = ['raw', 'plaintext'] as const;
-export type FormatType = typeof FORMATS[number];
+export type FormatType = (typeof FORMATS)[number];
 
 export function formatByType(
 	history: readonly Message[],

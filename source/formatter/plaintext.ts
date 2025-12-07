@@ -1,4 +1,4 @@
-import type {Message, MessageEntity} from 'grammy/types';
+import type {Message} from 'grammy/types';
 import {getEntites} from './helper.js';
 import type {Result} from './type.js';
 
@@ -125,8 +125,7 @@ function formatContent(message: Partial<Message>): string {
 		parts.push(`reply to <${repliedToName}> "${shorted}"`);
 	}
 
-	const contentTypes = (Object.keys(message) as Array<keyof Message>)
-		.filter(o => !OTHER_MESSAGE_TYPE_EXCLUDE.has(o));
+	const contentTypes = (Object.keys(message) as Array<keyof Message>).filter(o => !OTHER_MESSAGE_TYPE_EXCLUDE.has(o));
 
 	if (contentTypes.length > 0) {
 		parts.push(`<${contentTypes.join(',')}>`);
@@ -140,10 +139,7 @@ function formatContent(message: Partial<Message>): string {
 		parts.push(message.caption);
 	}
 
-	const entitiesOfInterest = getEntites(message)
-		.filter((o): o is Readonly<MessageEntity.TextLinkMessageEntity> =>
-			o.type === 'text_link',
-		);
+	const entitiesOfInterest = getEntites(message).filter(o => o.type === 'text_link');
 	if (entitiesOfInterest.length > 0) {
 		parts.push(`[${entitiesOfInterest.map(o => o.url).join(', ')}]`);
 	}

@@ -8,9 +8,7 @@ import type {MyContext} from './types.js';
 
 const token = env['BOT_TOKEN'];
 if (!token) {
-	throw new Error(
-		'You have to provide the bot-token from @BotFather via environment variable (BOT_TOKEN)',
-	);
+	throw new Error('You have to provide the bot-token from @BotFather via environment variable (BOT_TOKEN)');
 }
 
 const baseBot = new Bot<MyContext>(token);
@@ -30,7 +28,8 @@ const i18n = new I18n({
 bot.use(i18n.middleware());
 
 bot.filter(o => o.chat?.type === 'private').use(privateChat.bot.middleware());
-bot.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup')
+bot
+	.filter(o => o.chat?.type === 'group' || o.chat?.type === 'supergroup')
 	.use(groupChat.bot.middleware());
 
 bot.on('my_chat_member', () => {
@@ -39,10 +38,12 @@ bot.on('my_chat_member', () => {
 	// TODO: remove this when ctx.chat.type === 'group' works for this as its better to be handled there.
 });
 
-bot.filter(o => o.chat?.type === 'channel').use(async ctx => {
-	await ctx.reply(ctx.t('channel-fail'));
-	return ctx.leaveChat();
-});
+bot
+	.filter(o => o.chat?.type === 'channel')
+	.use(async ctx => {
+		await ctx.reply(ctx.t('channel-fail'));
+		return ctx.leaveChat();
+	});
 
 if (env['NODE_ENV'] !== 'production') {
 	bot.use(ctx => {

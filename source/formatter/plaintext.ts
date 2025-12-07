@@ -1,6 +1,6 @@
 import type {Message} from 'grammy/types';
-import {getEntites} from './helper.js';
-import type {Result} from './type.js';
+import {getEntites} from './helper.ts';
+import type {Result} from './type.ts';
 
 export function plaintext(history: readonly Message[]): Result[] {
 	const messageDict: Record<number, Message> = {};

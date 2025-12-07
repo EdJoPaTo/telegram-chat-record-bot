@@ -11,12 +11,17 @@
 		"url": "https://edjopato.de"
 	},
 	"scripts": {
-		"start": "tsc && node --enable-source-maps dist/telegram-chat-record-bot.js",
+		"start": "node --enable-source-maps source/telegram-chat-record-bot.ts",
 		"test": "tsc && xo"
 	},
 	"type": "module",
 	"engines": {
-		"node": ">=22"
+		"node": ">=24"
+	},
+	"devEngines": {
+		"packageManager": {
+			"name": "npm"
+		}
 	},
 	"dependencies": {
 		"@edjopato/datastore": "^0.7.0",
@@ -25,7 +30,7 @@
 		"telegraf-middleware-console-time": "^3.0.0"
 	},
 	"devDependencies": {
-		"@types/node": "^22.10.7",
+		"@types/node": "^24.10.1",
 		"typescript": "^5.9.3",
 		"xo": "^1.2.3"
 	},

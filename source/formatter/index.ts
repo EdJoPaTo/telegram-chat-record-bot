@@ -1,10 +1,10 @@
 import type {Message} from 'grammy/types';
-import {plaintext} from './plaintext.js';
-import {raw} from './simple.js';
-import type {Result} from './type.js';
+import {plaintext} from './plaintext.ts';
+import {raw} from './simple.ts';
+import type {Result} from './type.ts';
 
-export * from './simple.js';
-export type * from './type.js';
+export * from './simple.ts';
+export type * from './type.ts';
 
 export const FORMATS = ['raw', 'plaintext'] as const;
 export type FormatType = (typeof FORMATS)[number];

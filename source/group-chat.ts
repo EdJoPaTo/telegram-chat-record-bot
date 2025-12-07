@@ -1,8 +1,8 @@
 import {Composer, InputFile} from 'grammy';
 import type {Message} from 'grammy/types';
-import {formatByType, FORMATS, type FormatType} from './formatter/index.js';
-import * as records from './records.js';
-import type {MyContext} from './types.js';
+import {formatByType, FORMATS, type FormatType} from './formatter/index.ts';
+import * as records from './records.ts';
+import type {MyContext} from './types.ts';
 
 export const bot = new Composer<MyContext>();
 

@@ -1,4 +1,4 @@
-import {Composer, InputFile} from 'grammy';
+import {type CommandContext, Composer, InputFile} from 'grammy';
 import type {Message} from 'grammy/types';
 import {formatByType, FORMATS, type FormatType} from './formatter/index.ts';
 import * as records from './records.ts';
@@ -51,15 +51,15 @@ bot.command('privacy', async ctx =>
 		repolink: 'https://github.com/EdJoPaTo/telegram-chat-record-bot',
 	})));
 
-async function sendRecording(ctx: MyContext): Promise<void> {
-	const history = records.get(ctx.chat!.id);
+async function sendRecording(ctx: CommandContext<MyContext>): Promise<void> {
+	const history = records.get(ctx.chat.id);
 	if (history.length === 0) {
 		await ctx.reply(ctx.t('group-finish-empty'));
 		return;
 	}
 
 	const filenameParts: Array<string | undefined> = [];
-	if ('title' in ctx.chat!) {
+	if ('title' in ctx.chat) {
 		filenameParts.push(ctx.chat.title);
 	}
 

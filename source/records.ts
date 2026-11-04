@@ -1,7 +1,7 @@
-import {KeyValueInMemoryFiles} from '@edjopato/datastore';
-import type {Message} from 'grammy/types';
+import { KeyValueInMemoryFiles } from "@edjopato/datastore";
+import type { Message } from "grammy/types";
 
-const data = new KeyValueInMemoryFiles<string, Message[]>('persist/records');
+const data = new KeyValueInMemoryFiles<string, Message[]>("persist/records");
 
 export async function add(message: Message): Promise<void> {
 	const id = String(message.chat.id);
@@ -18,10 +18,7 @@ export function get(chatId: number): Message[] {
 	return data.get(String(chatId)) ?? [];
 }
 
-export async function migrateToNewGroupId(
-	oldChatId: number,
-	newChatId: number,
-): Promise<void> {
+export async function migrateToNewGroupId(oldChatId: number, newChatId: number): Promise<void> {
 	const history = data.get(String(oldChatId));
 	if (!history) {
 		return;

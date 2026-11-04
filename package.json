@@ -1,27 +1,12 @@
 {
 	"name": "telegram-chat-record-bot",
-	"private": true,
 	"version": "3.0.4",
-	"description": "A Telegram Bot to record messages in a given chat for a period of time",
+	"private": true,
 	"license": "MIT",
-	"repository": "EdJoPaTo/telegram-chat-record-bot",
-	"author": {
-		"name": "EdJoPaTo",
-		"email": "telegram-chat-record-bot@edjopato.de",
-		"url": "https://edjopato.de"
-	},
+	"type": "module",
 	"scripts": {
 		"start": "node --enable-source-maps source/telegram-chat-record-bot.ts",
-		"test": "tsc && xo"
-	},
-	"type": "module",
-	"engines": {
-		"node": ">=24"
-	},
-	"devEngines": {
-		"packageManager": {
-			"name": "npm"
-		}
+		"test": "tsc && oxlint && oxfmt --check"
 	},
 	"dependencies": {
 		"@edjopato/datastore": "^0.7.0",
@@ -31,13 +16,17 @@
 	},
 	"devDependencies": {
 		"@types/node": "^24.10.1",
-		"typescript": "^6.0.2",
-		"xo": "^1.2.3"
+		"oxfmt": "^0.76.0",
+		"oxlint": "^1.91.0",
+		"oxlint-tsgolint": "^7.0.2005",
+		"typescript": "^7.0.2"
 	},
-	"xo": {
-		"rules": {
-			"@typescript-eslint/naming-convention": "off",
-			"unicorn/prevent-abbreviations": "off"
+	"devEngines": {
+		"packageManager": {
+			"name": "npm"
 		}
+	},
+	"engines": {
+		"node": ">=24"
 	}
 }
